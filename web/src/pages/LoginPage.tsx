@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { useAuth } from '@hooks/useAuth';
 import LoadingScreen from '@components/LoadingScreen';
 import { useNavigate } from 'react-router-dom';
@@ -112,7 +112,7 @@ export function LoginPage() {
 
         <hr className='mt-4' />
 
-        <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-300">
+        {/* <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-300">
           Don't have an account?{' '}
           <Link to="/register" className="text-blue-600 dark:text-blue-400 hover:underline">
             Register
@@ -124,7 +124,7 @@ export function LoginPage() {
           <Link to="/recover-password" className="text-blue-600 dark:text-blue-400 hover:underline">
             Recover
           </Link>
-        </p>
+        </p> */}
       </div>
     </div>
   );
