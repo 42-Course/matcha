@@ -194,4 +194,27 @@ class AdminController < BaseController
     dates_data = Date.dates_over_time(days)
     { data: dates_data }.to_json
   end
+
+  api_doc '/admin/stats/user-locations', method: :get do
+    tags 'Admin'
+    description 'Get all users with their locations and online status (public)'
+    response 200, 'User locations', example: {
+      data: [
+        {
+          id: 1,
+          username: 'johndoe',
+          latitude: 48.8566,
+          longitude: 2.3522,
+          city: 'Paris',
+          country: 'France',
+          online_status: true
+        }
+      ]
+    }
+  end
+
+  get '/admin/stats/user-locations' do
+    users = User.all_with_locations
+    { data: users }.to_json
+  end
 end

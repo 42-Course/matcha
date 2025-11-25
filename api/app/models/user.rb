@@ -24,6 +24,19 @@ class User
     end
   end
 
+  def self.all_with_locations
+    Database.with_conn do |conn|
+      sql = <<~SQL
+        SELECT id, username, latitude, longitude, city, country, online_status
+        FROM users
+        WHERE latitude IS NOT NULL AND longitude IS NOT NULL
+        ORDER BY username ASC
+      SQL
+      res = conn.exec(sql)
+      res.to_a
+    end
+  end
+
   def self.create(params)
     params = RequestHelper.normalize_params(params)
     params['password_digest'] = Password.create(params.delete('password'))

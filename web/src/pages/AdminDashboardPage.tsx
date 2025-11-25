@@ -4,6 +4,7 @@ import { useUserMe } from '@/hooks/useUserMe';
 import { Users, Activity, List, LayoutGrid } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { TimeSeriesChart } from '@/components/TimeSeriesChart';
+import { UserGlobe } from '@/components/UserGlobe';
 
 interface AdminUser {
   id: number;
@@ -226,6 +227,10 @@ export function AdminDashboardPage() {
           data={datesOverTime}
           color="#ec4899"
         />
+      </div>
+
+      <div className="mb-8">
+        <UserGlobe />
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
