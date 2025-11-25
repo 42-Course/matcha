@@ -63,7 +63,7 @@ class UsersController < BaseController
   end
 
   patch '/me' do
-    ip_address = request.ip
+    ip_address = client_ip
     user_agent = request.user_agent
     data = json_body
 

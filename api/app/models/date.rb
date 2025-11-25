@@ -47,4 +47,25 @@ class Date
       conn.exec_params('DELETE FROM dates WHERE id = $1', [id])
     end
   end
+
+  def self.count
+    db.with do |conn|
+      res = conn.exec('SELECT COUNT(*) FROM dates')
+      res.first['count'].to_i
+    end
+  end
+
+  def self.dates_over_time(days = 30)
+    db.with do |conn|
+      sql = <<~SQL
+        SELECT DATE(created_at) as date, COUNT(*) as count
+        FROM dates
+        WHERE created_at >= NOW() - INTERVAL '#{days} days'
+        GROUP BY DATE(created_at)
+        ORDER BY date ASC
+      SQL
+      res = conn.exec(sql)
+      res.to_a
+    end
+  end
 end

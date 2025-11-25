@@ -26,4 +26,25 @@ class Message
       res.to_a
     end
   end
+
+  def self.count
+    Database.with_conn do |conn|
+      res = conn.exec('SELECT COUNT(*) FROM messages')
+      res.first['count'].to_i
+    end
+  end
+
+  def self.messages_over_time(days = 30)
+    Database.with_conn do |conn|
+      sql = <<~SQL
+        SELECT DATE(created_at) as date, COUNT(*) as count
+        FROM messages
+        WHERE created_at >= NOW() - INTERVAL '#{days} days'
+        GROUP BY DATE(created_at)
+        ORDER BY date ASC
+      SQL
+      res = conn.exec(sql)
+      res.to_a
+    end
+  end
 end

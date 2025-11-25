@@ -57,4 +57,19 @@ class Like
       !res.ntuples.zero?
     end
   end
+
+  def self.count_matches
+    Database.with_conn do |conn|
+      sql = <<~SQL
+        SELECT COUNT(*) / 2 as match_count FROM (
+          SELECT l1.liker_id, l1.liked_id
+          FROM likes l1
+          INNER JOIN likes l2 ON l1.liker_id = l2.liked_id AND l1.liked_id = l2.liker_id
+          WHERE l1.liker_id < l1.liked_id
+        ) matches
+      SQL
+      res = conn.exec(sql)
+      res.first['match_count'].to_i
+    end
+  end
 end

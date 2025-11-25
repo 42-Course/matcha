@@ -1,5 +1,5 @@
 import { DashboardCard } from '@components/DashboardCard';
-import { Heart, MessageCircle, LogOut, User, Pencil } from 'lucide-react';
+import { Heart, MessageCircle, LogOut, User, Pencil, Shield } from 'lucide-react';
 import { useAuth } from '@hooks/useAuth';
 import { useUserMe } from '@/hooks/useUserMe';
 
@@ -40,6 +40,12 @@ export function Dashboard() {
           icon={<MessageCircle className="text-orange-300" />}
           to="/conversations"
           description="See all your conversations."
+        />
+        <DashboardCard
+          title="Admin Dashboard"
+          icon={<Shield className="text-purple-500" />}
+          to="/admin"
+          description="Access admin panel and site statistics."
         />
         <DashboardCard
           title="Log Out"

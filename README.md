@@ -24,7 +24,7 @@ Swipe, connect, chat — all backed by a beautiful API and blazing-fast frontend
 
 ## 🌐 Live Preview
 
-- 🔗 [API Docs Viewer](https://pulgamecanica.github.io/matcha-docs/)
+- 🔗 [API Docs Viewer](https://42-course.github.io/matcha/docs/)
 - 🔗 [Matcha Frontend](https://www.42matcha.com/)
 
 ---

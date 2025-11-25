@@ -4,6 +4,7 @@ require 'sinatra/base'
 require_relative '../helpers/request_helper'
 require_relative '../helpers/session_token'
 require_relative '../lib/errors'
+require_relative '../models/site_visit'
 
 class BaseController < Sinatra::Base
   include APIDoc
@@ -28,21 +29,31 @@ class BaseController < Sinatra::Base
       end
     end
 
-    helpers do
-      def require_auth!
-        token = request.env['HTTP_AUTHORIZATION']&.sub(/^Bearer /, '')
-        halt 401, { error: 'Missing or invalid Authorization header' }.to_json unless token
+    def client_ip
+      # When behind a proxy (like Fly.io), get the real client IP from X-Forwarded-For header
+      # Take the first IP in the chain (the original client)
+      request.env['HTTP_X_FORWARDED_FOR']&.split(',')&.first&.strip || request.ip
+    end
 
-        payload = SessionToken.decode(token)
-        halt 401, { error: 'Invalid or expired session token' }.to_json unless payload
+    def require_auth!
+      token = request.env['HTTP_AUTHORIZATION']&.sub(/^Bearer /, '')
+      halt 401, { error: 'Missing or invalid Authorization header' }.to_json unless token
 
-        user = User.find_by_id(payload['user_id'])
-        halt 401, { error: 'Invalid user' }.to_json unless user
-        halt 403, { error: 'Email not verified' }.to_json unless user['is_email_verified'] == 't'
-        halt 403, { error: 'Account is banned' }.to_json if user['is_banned'] == 't'
+      payload = SessionToken.decode(token)
+      halt 401, { error: 'Invalid or expired session token' }.to_json unless payload
 
-        @current_user = user
-      end
+      user = User.find_by_id(payload['user_id'])
+      halt 401, { error: 'Invalid user' }.to_json unless user
+      halt 403, { error: 'Email not verified' }.to_json unless user['is_email_verified'] == 't'
+      halt 403, { error: 'Account is banned' }.to_json if user['is_banned'] == 't'
+
+      @current_user = user
+
+      SiteVisit.record(user['id'], client_ip, request.user_agent)
+    end
+
+    def require_admin!
+      halt 403, { error: 'Admin access required' }.to_json unless @current_user['username'] == 'pulgamecanica'
     end
   end
 end

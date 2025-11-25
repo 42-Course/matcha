@@ -1,73 +1,74 @@
 DOCKER_CONTAINER_NAME = web
+DOCKER = /usr/bin/docker
 
 up:
-	docker compose up -d
+	${DOCKER} compose up -d
 	@echo "Container ip:" 
 	@docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' api-web-1
 
 build:
-	docker compose up --build -d
+	${DOCKER} compose up --build -d
 	@docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' api-web-1
 
 down:
-	docker compose down
+	${DOCKER} compose down
 
 logs:
-	docker compose logs -f
+	${DOCKER} compose logs -f
 
 run:
-	docker compose run \
+	${DOCKER} compose run \
     -it \
     --remove-orphans \
     ${DOCKER_CONTAINER_NAME} \
     /bin/bash
 
 docs:
-	docker compose run \
+	${DOCKER} compose run \
 		-it \
 		--remove-orphans \
 		${DOCKER_CONTAINER_NAME} \
 		rake doc:export
 
 create:
-	-docker compose run \
+	-${DOCKER} compose run \
 		-it \
 		--remove-orphans \
 		${DOCKER_CONTAINER_NAME} \
 		rake db:create
 
 migrate:
-	-docker compose run \
+	-${DOCKER} compose run \
 		-it \
 		--remove-orphans \
 		${DOCKER_CONTAINER_NAME} \
 		rake db:migrate
 
 seed: create migrate
-	-docker compose run \
+	-${DOCKER} compose run \
 		-it \
 		--remove-orphans \
 		${DOCKER_CONTAINER_NAME} \
 		rake db:seed
 
 drop:
-	-docker compose run \
+	-${DOCKER} compose run \
 		-it \
 		--remove-orphans \
 		${DOCKER_CONTAINER_NAME} \
 		rake db:drop
 
 test:
-	-docker compose run \
+	-${DOCKER} compose run \
 		-it \
 		--remove-orphans \
 		${DOCKER_CONTAINER_NAME} \
 		bundle exec rspec $(filter-out $@,$(MAKECMDGOALS))
 
 console:
-	docker compose run \
+	${DOCKER} compose run \
 		${DOCKER_CONTAINER_NAME} \
-		irb -r ./app
+		irb -r ./config/environment.rb
 
 re: down build re_db
 

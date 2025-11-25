@@ -1,0 +1,1294 @@
+{
+  "meta": {
+    "tool": "lsphere",
+    "version": "0.0.0",
+    "generatedAt": "2025-09-22T20:31:47.929Z",
+    "root": "/home/pulgamecanica/matcha",
+    "options": {
+      "depth": -1,
+      "dirsOnly": false,
+      "noDirs": false,
+      "bgColor": "#ffffff",
+      "palette": "dark2",
+      "contrast": "auto"
+    }
+  },
+  "tree": {
+    "kind": "dir",
+    "name": "matcha",
+    "path": "",
+    "children": [
+      {
+        "kind": "dir",
+        "name": ".git",
+        "path": ".git",
+        "children": [
+          {
+            "kind": "dir",
+            "name": "branches",
+            "path": ".git/branches",
+            "children": []
+          },
+          {
+            "kind": "dir",
+            "name": "hooks",
+            "path": ".git/hooks",
+            "children": [
+              {
+                "kind": "file",
+                "name": "applypatch-msg.sample",
+                "path": ".git/hooks/applypatch-msg.sample",
+                "size": 478,
+                "ext": ".sample"
+              },
+              {
+                "kind": "file",
+                "name": "commit-msg.sample",
+                "path": ".git/hooks/commit-msg.sample",
+                "size": 896,
+                "ext": ".sample"
+              },
+              {
+                "kind": "file",
+                "name": "fsmonitor-watchman.sample",
+                "path": ".git/hooks/fsmonitor-watchman.sample",
+                "size": 4726,
+                "ext": ".sample"
+              },
+              {
+                "kind": "file",
+                "name": "post-update.sample",
+                "path": ".git/hooks/post-update.sample",
+                "size": 189,
+                "ext": ".sample"
+              },
+              {
+                "kind": "file",
+                "name": "pre-applypatch.sample",
+                "path": ".git/hooks/pre-applypatch.sample",
+                "size": 424,
+                "ext": ".sample"
+              },
+              {
+                "kind": "file",
+                "name": "pre-commit.sample",
+                "path": ".git/hooks/pre-commit.sample",
+                "size": 1643,
+                "ext": ".sample"
+              },
+              {
+                "kind": "file",
+                "name": "pre-merge-commit.sample",
+                "path": ".git/hooks/pre-merge-commit.sample",
+                "size": 416,
+                "ext": ".sample"
+              },
+              {
+                "kind": "file",
+                "name": "pre-push.sample",
+                "path": ".git/hooks/pre-push.sample",
+                "size": 1374,
+                "ext": ".sample"
+              },
+              {
+                "kind": "file",
+                "name": "pre-rebase.sample",
+                "path": ".git/hooks/pre-rebase.sample",
+                "size": 4898,
+                "ext": ".sample"
+              },
+              {
+                "kind": "file",
+                "name": "pre-receive.sample",
+                "path": ".git/hooks/pre-receive.sample",
+                "size": 544,
+                "ext": ".sample"
+              },
+              {
+                "kind": "file",
+                "name": "prepare-commit-msg.sample",
+                "path": ".git/hooks/prepare-commit-msg.sample",
+                "size": 1492,
+                "ext": ".sample"
+              },
+              {
+                "kind": "file",
+                "name": "push-to-checkout.sample",
+                "path": ".git/hooks/push-to-checkout.sample",
+                "size": 2783,
+                "ext": ".sample"
+              },
+              {
+                "kind": "file",
+                "name": "sendemail-validate.sample",
+                "path": ".git/hooks/sendemail-validate.sample",
+                "size": 2308,
+                "ext": ".sample"
+              },
+              {
+                "kind": "file",
+                "name": "update.sample",
+                "path": ".git/hooks/update.sample",
+                "size": 3650,
+                "ext": ".sample"
+              }
+            ]
+          },
+          {
+            "kind": "dir",
+            "name": "info",
+            "path": ".git/info",
+            "children": [
+              {
+                "kind": "file",
+                "name": "exclude",
+                "path": ".git/info/exclude",
+                "size": 240,
+                "ext": ""
+              }
+            ]
+          },
+          {
+            "kind": "dir",
+            "name": "logs",
+            "path": ".git/logs",
+            "children": [
+              {
+                "kind": "dir",
+                "name": "refs",
+                "path": ".git/logs/refs",
+                "children": [
+                  {
+                    "kind": "dir",
+                    "name": "heads",
+                    "path": ".git/logs/refs/heads",
+                    "children": [
+                      {
+                        "kind": "file",
+                        "name": "main",
+                        "path": ".git/logs/refs/heads/main",
+                        "size": 193,
+                        "ext": ""
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "dir",
+                    "name": "remotes",
+                    "path": ".git/logs/refs/remotes",
+                    "children": [
+                      {
+                        "kind": "dir",
+                        "name": "origin",
+                        "path": ".git/logs/refs/remotes/origin",
+                        "children": [
+                          {
+                            "kind": "file",
+                            "name": "HEAD",
+                            "path": ".git/logs/refs/remotes/origin/HEAD",
+                            "size": 193,
+                            "ext": ""
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "file",
+                "name": "HEAD",
+                "path": ".git/logs/HEAD",
+                "size": 193,
+                "ext": ""
+              }
+            ]
+          },
+          {
+            "kind": "dir",
+            "name": "objects",
+            "path": ".git/objects",
+            "children": [
+              {
+                "kind": "dir",
+                "name": "info",
+                "path": ".git/objects/info",
+                "children": []
+              },
+              {
+                "kind": "dir",
+                "name": "pack",
+                "path": ".git/objects/pack",
+                "children": [
+                  {
+                    "kind": "file",
+                    "name": "pack-c1dde55483e3b9d832d2e4015e4455537cc70a20.idx",
+                    "path": ".git/objects/pack/pack-c1dde55483e3b9d832d2e4015e4455537cc70a20.idx",
+                    "size": 8744,
+                    "ext": ".idx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "pack-c1dde55483e3b9d832d2e4015e4455537cc70a20.pack",
+                    "path": ".git/objects/pack/pack-c1dde55483e3b9d832d2e4015e4455537cc70a20.pack",
+                    "size": 2905319,
+                    "ext": ".pack"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "pack-c1dde55483e3b9d832d2e4015e4455537cc70a20.rev",
+                    "path": ".git/objects/pack/pack-c1dde55483e3b9d832d2e4015e4455537cc70a20.rev",
+                    "size": 1148,
+                    "ext": ".rev"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "dir",
+            "name": "refs",
+            "path": ".git/refs",
+            "children": [
+              {
+                "kind": "dir",
+                "name": "heads",
+                "path": ".git/refs/heads",
+                "children": [
+                  {
+                    "kind": "file",
+                    "name": "main",
+                    "path": ".git/refs/heads/main",
+                    "size": 41,
+                    "ext": ""
+                  }
+                ]
+              },
+              {
+                "kind": "dir",
+                "name": "remotes",
+                "path": ".git/refs/remotes",
+                "children": [
+                  {
+                    "kind": "dir",
+                    "name": "origin",
+                    "path": ".git/refs/remotes/origin",
+                    "children": [
+                      {
+                        "kind": "file",
+                        "name": "HEAD",
+                        "path": ".git/refs/remotes/origin/HEAD",
+                        "size": 30,
+                        "ext": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "dir",
+                "name": "tags",
+                "path": ".git/refs/tags",
+                "children": []
+              }
+            ]
+          },
+          {
+            "kind": "file",
+            "name": "config",
+            "path": ".git/config",
+            "size": 317,
+            "ext": ""
+          },
+          {
+            "kind": "file",
+            "name": "description",
+            "path": ".git/description",
+            "size": 73,
+            "ext": ""
+          },
+          {
+            "kind": "file",
+            "name": "HEAD",
+            "path": ".git/HEAD",
+            "size": 21,
+            "ext": ""
+          },
+          {
+            "kind": "file",
+            "name": "index",
+            "path": ".git/index",
+            "size": 24714,
+            "ext": ""
+          },
+          {
+            "kind": "file",
+            "name": "packed-refs",
+            "path": ".git/packed-refs",
+            "size": 112,
+            "ext": ""
+          }
+        ]
+      },
+      {
+        "kind": "dir",
+        "name": "docs",
+        "path": "docs",
+        "children": [
+          {
+            "kind": "file",
+            "name": "README.md",
+            "path": "docs/README.md",
+            "size": 965,
+            "ext": ".md"
+          }
+        ]
+      },
+      {
+        "kind": "dir",
+        "name": "output",
+        "path": "output",
+        "children": [
+          {
+            "kind": "file",
+            "name": "circle.html",
+            "path": "output/circle.html",
+            "size": 1029,
+            "ext": ".html"
+          },
+          {
+            "kind": "file",
+            "name": "circle.json",
+            "path": "output/circle.json",
+            "size": 75723,
+            "ext": ".json"
+          },
+          {
+            "kind": "file",
+            "name": "circle.svg",
+            "path": "output/circle.svg",
+            "size": 42122,
+            "ext": ".svg"
+          }
+        ]
+      },
+      {
+        "kind": "dir",
+        "name": "web",
+        "path": "web",
+        "children": [
+          {
+            "kind": "dir",
+            "name": "public",
+            "path": "web/public",
+            "children": [
+              {
+                "kind": "file",
+                "name": "frodo-keep-your-secrets.gif",
+                "path": "web/public/frodo-keep-your-secrets.gif",
+                "size": 2727799,
+                "ext": ".gif"
+              },
+              {
+                "kind": "file",
+                "name": "vite.svg",
+                "path": "web/public/vite.svg",
+                "size": 1497,
+                "ext": ".svg"
+              }
+            ]
+          },
+          {
+            "kind": "dir",
+            "name": "src",
+            "path": "web/src",
+            "children": [
+              {
+                "kind": "dir",
+                "name": "components",
+                "path": "web/src/components",
+                "children": [
+                  {
+                    "kind": "dir",
+                    "name": "chat",
+                    "path": "web/src/components/chat",
+                    "children": [
+                      {
+                        "kind": "file",
+                        "name": "CallIncomingModal.tsx",
+                        "path": "web/src/components/chat/CallIncomingModal.tsx",
+                        "size": 2073,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "ChatWindow.tsx",
+                        "path": "web/src/components/chat/ChatWindow.tsx",
+                        "size": 4353,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "ConversationItem.tsx",
+                        "path": "web/src/components/chat/ConversationItem.tsx",
+                        "size": 1118,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "ConversationPanel.tsx",
+                        "path": "web/src/components/chat/ConversationPanel.tsx",
+                        "size": 2519,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "TypingIndicator.tsx",
+                        "path": "web/src/components/chat/TypingIndicator.tsx",
+                        "size": 151,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "VoiceChat.tsx",
+                        "path": "web/src/components/chat/VoiceChat.tsx",
+                        "size": 7257,
+                        "ext": ".tsx"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "dir",
+                    "name": "forms",
+                    "path": "web/src/components/forms",
+                    "children": [
+                      {
+                        "kind": "file",
+                        "name": "FormInput.tsx",
+                        "path": "web/src/components/forms/FormInput.tsx",
+                        "size": 949,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "FormSelect.tsx",
+                        "path": "web/src/components/forms/FormSelect.tsx",
+                        "size": 1054,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "FormYear.tsx",
+                        "path": "web/src/components/forms/FormYear.tsx",
+                        "size": 1225,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "LocationForm.tsx",
+                        "path": "web/src/components/forms/LocationForm.tsx",
+                        "size": 1558,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "ProfileForm.tsx",
+                        "path": "web/src/components/forms/ProfileForm.tsx",
+                        "size": 3786,
+                        "ext": ".tsx"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "dir",
+                    "name": "location",
+                    "path": "web/src/components/location",
+                    "children": [
+                      {
+                        "kind": "file",
+                        "name": "DistanceMap.tsx",
+                        "path": "web/src/components/location/DistanceMap.tsx",
+                        "size": 1045,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "LocationEditor.tsx",
+                        "path": "web/src/components/location/LocationEditor.tsx",
+                        "size": 1336,
+                        "ext": ".tsx"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "dir",
+                    "name": "match",
+                    "path": "web/src/components/match",
+                    "children": [
+                      {
+                        "kind": "file",
+                        "name": "FilterPanel.tsx",
+                        "path": "web/src/components/match/FilterPanel.tsx",
+                        "size": 6050,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "IsMatch.tsx",
+                        "path": "web/src/components/match/IsMatch.tsx",
+                        "size": 0,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "MatchCard.tsx",
+                        "path": "web/src/components/match/MatchCard.tsx",
+                        "size": 4664,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "MatchMap.tsx",
+                        "path": "web/src/components/match/MatchMap.tsx",
+                        "size": 2796,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "MatchResults.tsx",
+                        "path": "web/src/components/match/MatchResults.tsx",
+                        "size": 3505,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "NoMatches.tsx",
+                        "path": "web/src/components/match/NoMatches.tsx",
+                        "size": 1041,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "SortSelector.tsx",
+                        "path": "web/src/components/match/SortSelector.tsx",
+                        "size": 2068,
+                        "ext": ".tsx"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "dir",
+                    "name": "profile",
+                    "path": "web/src/components/profile",
+                    "children": [
+                      {
+                        "kind": "file",
+                        "name": "LocationCard.tsx",
+                        "path": "web/src/components/profile/LocationCard.tsx",
+                        "size": 585,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "PictureGallery.tsx",
+                        "path": "web/src/components/profile/PictureGallery.tsx",
+                        "size": 659,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "PictureManager.tsx",
+                        "path": "web/src/components/profile/PictureManager.tsx",
+                        "size": 3077,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "ProfileHeader.tsx",
+                        "path": "web/src/components/profile/ProfileHeader.tsx",
+                        "size": 2294,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "ProfileStats.tsx",
+                        "path": "web/src/components/profile/ProfileStats.tsx",
+                        "size": 3176,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "PublicProfileActions.tsx",
+                        "path": "web/src/components/profile/PublicProfileActions.tsx",
+                        "size": 5367,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "StatItem.tsx",
+                        "path": "web/src/components/profile/StatItem.tsx",
+                        "size": 437,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "StatSidebar.tsx",
+                        "path": "web/src/components/profile/StatSidebar.tsx",
+                        "size": 1053,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "TagEditor.tsx",
+                        "path": "web/src/components/profile/TagEditor.tsx",
+                        "size": 2187,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "TagList.tsx",
+                        "path": "web/src/components/profile/TagList.tsx",
+                        "size": 722,
+                        "ext": ".tsx"
+                      },
+                      {
+                        "kind": "file",
+                        "name": "UserListStat.tsx",
+                        "path": "web/src/components/profile/UserListStat.tsx",
+                        "size": 1179,
+                        "ext": ".tsx"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "file",
+                    "name": "ActionsMenu.tsx",
+                    "path": "web/src/components/ActionsMenu.tsx",
+                    "size": 2383,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "DashboardCard.tsx",
+                    "path": "web/src/components/DashboardCard.tsx",
+                    "size": 885,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "ErrorBlockerMessage.tsx",
+                    "path": "web/src/components/ErrorBlockerMessage.tsx",
+                    "size": 757,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "FameGradiant.tsx",
+                    "path": "web/src/components/FameGradiant.tsx",
+                    "size": 697,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "GlobalCallHandler.tsx",
+                    "path": "web/src/components/GlobalCallHandler.tsx",
+                    "size": 1438,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "IntraLogin.tsx",
+                    "path": "web/src/components/IntraLogin.tsx",
+                    "size": 1684,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "LoadingScreen.tsx",
+                    "path": "web/src/components/LoadingScreen.tsx",
+                    "size": 564,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "LocationEditorModal.tsx",
+                    "path": "web/src/components/LocationEditorModal.tsx",
+                    "size": 1048,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "MessageInput.tsx",
+                    "path": "web/src/components/MessageInput.tsx",
+                    "size": 1628,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "NotificationDropdown.tsx",
+                    "path": "web/src/components/NotificationDropdown.tsx",
+                    "size": 3662,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "ProtectedRoute.tsx",
+                    "path": "web/src/components/ProtectedRoute.tsx",
+                    "size": 1130,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "ReportUserModal.tsx",
+                    "path": "web/src/components/ReportUserModal.tsx",
+                    "size": 2478,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "ScheduledDatesModal.tsx",
+                    "path": "web/src/components/ScheduledDatesModal.tsx",
+                    "size": 2962,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "SetScheduledDatesModal.tsx",
+                    "path": "web/src/components/SetScheduledDatesModal.tsx",
+                    "size": 5248,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "ThemeToggle.tsx",
+                    "path": "web/src/components/ThemeToggle.tsx",
+                    "size": 434,
+                    "ext": ".tsx"
+                  }
+                ]
+              },
+              {
+                "kind": "dir",
+                "name": "context",
+                "path": "web/src/context",
+                "children": [
+                  {
+                    "kind": "file",
+                    "name": "AuthContext.ts",
+                    "path": "web/src/context/AuthContext.ts",
+                    "size": 691,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "AuthProvider.tsx",
+                    "path": "web/src/context/AuthProvider.tsx",
+                    "size": 2379,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "MessagesContext.ts",
+                    "path": "web/src/context/MessagesContext.ts",
+                    "size": 1080,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "MessagesProvider.tsx",
+                    "path": "web/src/context/MessagesProvider.tsx",
+                    "size": 5669,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "NotificationContext.ts",
+                    "path": "web/src/context/NotificationContext.ts",
+                    "size": 528,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "NotificationProvider.tsx",
+                    "path": "web/src/context/NotificationProvider.tsx",
+                    "size": 2703,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "ThemeContext.ts",
+                    "path": "web/src/context/ThemeContext.ts",
+                    "size": 253,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "ThemeProvider.tsx",
+                    "path": "web/src/context/ThemeProvider.tsx",
+                    "size": 995,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "UserMeContext.ts",
+                    "path": "web/src/context/UserMeContext.ts",
+                    "size": 1957,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "UserMeProvider.tsx",
+                    "path": "web/src/context/UserMeProvider.tsx",
+                    "size": 10186,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "WebSocketContext.ts",
+                    "path": "web/src/context/WebSocketContext.ts",
+                    "size": 547,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "WebSocketProvider.tsx",
+                    "path": "web/src/context/WebSocketProvider.tsx",
+                    "size": 2650,
+                    "ext": ".tsx"
+                  }
+                ]
+              },
+              {
+                "kind": "dir",
+                "name": "hooks",
+                "path": "web/src/hooks",
+                "children": [
+                  {
+                    "kind": "file",
+                    "name": "useAuth.tsx",
+                    "path": "web/src/hooks/useAuth.tsx",
+                    "size": 153,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "useMessages.tsx",
+                    "path": "web/src/hooks/useMessages.tsx",
+                    "size": 292,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "useNotifications.tsx",
+                    "path": "web/src/hooks/useNotifications.tsx",
+                    "size": 177,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "useTheme.tsx",
+                    "path": "web/src/hooks/useTheme.tsx",
+                    "size": 157,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "useUserMe.tsx",
+                    "path": "web/src/hooks/useUserMe.tsx",
+                    "size": 152,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "useWebSocket.tsx",
+                    "path": "web/src/hooks/useWebSocket.tsx",
+                    "size": 164,
+                    "ext": ".tsx"
+                  }
+                ]
+              },
+              {
+                "kind": "dir",
+                "name": "pages",
+                "path": "web/src/pages",
+                "children": [
+                  {
+                    "kind": "file",
+                    "name": "ConfirmAccountPage.tsx",
+                    "path": "web/src/pages/ConfirmAccountPage.tsx",
+                    "size": 2258,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "ConversationsPage.tsx",
+                    "path": "web/src/pages/ConversationsPage.tsx",
+                    "size": 2421,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "DashboardPage.tsx",
+                    "path": "web/src/pages/DashboardPage.tsx",
+                    "size": 1711,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "EditProfilePage.tsx",
+                    "path": "web/src/pages/EditProfilePage.tsx",
+                    "size": 1122,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "IntraCallbackPage.tsx",
+                    "path": "web/src/pages/IntraCallbackPage.tsx",
+                    "size": 3354,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "LoginPage.tsx",
+                    "path": "web/src/pages/LoginPage.tsx",
+                    "size": 4488,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "MatchingPage.tsx",
+                    "path": "web/src/pages/MatchingPage.tsx",
+                    "size": 1985,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "NewPasswordPage.tsx",
+                    "path": "web/src/pages/NewPasswordPage.tsx",
+                    "size": 3018,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "NotFoundPage.tsx",
+                    "path": "web/src/pages/NotFoundPage.tsx",
+                    "size": 836,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "ProfilePage.tsx",
+                    "path": "web/src/pages/ProfilePage.tsx",
+                    "size": 3222,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "PublicProfilePage.tsx",
+                    "path": "web/src/pages/PublicProfilePage.tsx",
+                    "size": 5039,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "RecoverPasswordPage.tsx",
+                    "path": "web/src/pages/RecoverPasswordPage.tsx",
+                    "size": 2411,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "RegisterPage.tsx",
+                    "path": "web/src/pages/RegisterPage.tsx",
+                    "size": 3914,
+                    "ext": ".tsx"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "SetupProfilePage.tsx",
+                    "path": "web/src/pages/SetupProfilePage.tsx",
+                    "size": 1326,
+                    "ext": ".tsx"
+                  }
+                ]
+              },
+              {
+                "kind": "dir",
+                "name": "types",
+                "path": "web/src/types",
+                "children": [
+                  {
+                    "kind": "file",
+                    "name": "conversation.ts",
+                    "path": "web/src/types/conversation.ts",
+                    "size": 162,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "iceServer.ts",
+                    "path": "web/src/types/iceServer.ts",
+                    "size": 88,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "location.ts",
+                    "path": "web/src/types/location.ts",
+                    "size": 130,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "match.ts",
+                    "path": "web/src/types/match.ts",
+                    "size": 448,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "message.ts",
+                    "path": "web/src/types/message.ts",
+                    "size": 155,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "notification.ts",
+                    "path": "web/src/types/notification.ts",
+                    "size": 365,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "picture.ts",
+                    "path": "web/src/types/picture.ts",
+                    "size": 151,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "scheduledDate.ts",
+                    "path": "web/src/types/scheduledDate.ts",
+                    "size": 434,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "tag.ts",
+                    "path": "web/src/types/tag.ts",
+                    "size": 53,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "user.ts",
+                    "path": "web/src/types/user.ts",
+                    "size": 1538,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "websocket.ts",
+                    "path": "web/src/types/websocket.ts",
+                    "size": 2246,
+                    "ext": ".ts"
+                  }
+                ]
+              },
+              {
+                "kind": "dir",
+                "name": "utils",
+                "path": "web/src/utils",
+                "children": [
+                  {
+                    "kind": "file",
+                    "name": "filterStorage.ts",
+                    "path": "web/src/utils/filterStorage.ts",
+                    "size": 547,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "setupLeaflet.ts",
+                    "path": "web/src/utils/setupLeaflet.ts",
+                    "size": 483,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "showApiErrorToast.ts",
+                    "path": "web/src/utils/showApiErrorToast.ts",
+                    "size": 673,
+                    "ext": ".ts"
+                  },
+                  {
+                    "kind": "file",
+                    "name": "toPublicUser.ts",
+                    "path": "web/src/utils/toPublicUser.ts",
+                    "size": 1034,
+                    "ext": ".ts"
+                  }
+                ]
+              },
+              {
+                "kind": "file",
+                "name": "App.tsx",
+                "path": "web/src/App.tsx",
+                "size": 4778,
+                "ext": ".tsx"
+              },
+              {
+                "kind": "file",
+                "name": "index.css",
+                "path": "web/src/index.css",
+                "size": 196,
+                "ext": ".css"
+              },
+              {
+                "kind": "file",
+                "name": "main.tsx",
+                "path": "web/src/main.tsx",
+                "size": 264,
+                "ext": ".tsx"
+              },
+              {
+                "kind": "file",
+                "name": "vite-env.d.ts",
+                "path": "web/src/vite-env.d.ts",
+                "size": 38,
+                "ext": ".ts"
+              }
+            ]
+          },
+          {
+            "kind": "file",
+            "name": ".env.example",
+            "path": "web/.env.example",
+            "size": 165,
+            "ext": ".example"
+          },
+          {
+            "kind": "file",
+            "name": ".eslintrc.cjs",
+            "path": "web/.eslintrc.cjs",
+            "size": 603,
+            "ext": ".cjs"
+          },
+          {
+            "kind": "file",
+            "name": ".gitignore",
+            "path": "web/.gitignore",
+            "size": 277,
+            "ext": ""
+          },
+          {
+            "kind": "file",
+            "name": ".nvmrc",
+            "path": "web/.nvmrc",
+            "size": 8,
+            "ext": ""
+          },
+          {
+            "kind": "file",
+            "name": ".prettierrc",
+            "path": "web/.prettierrc",
+            "size": 62,
+            "ext": ""
+          },
+          {
+            "kind": "file",
+            "name": "eslint.config.js",
+            "path": "web/eslint.config.js",
+            "size": 734,
+            "ext": ".js"
+          },
+          {
+            "kind": "file",
+            "name": "index.html",
+            "path": "web/index.html",
+            "size": 355,
+            "ext": ".html"
+          },
+          {
+            "kind": "file",
+            "name": "package-lock.json",
+            "path": "web/package-lock.json",
+            "size": 253791,
+            "ext": ".json"
+          },
+          {
+            "kind": "file",
+            "name": "package.json",
+            "path": "web/package.json",
+            "size": 1613,
+            "ext": ".json"
+          },
+          {
+            "kind": "file",
+            "name": "postcss.config.js",
+            "path": "web/postcss.config.js",
+            "size": 80,
+            "ext": ".js"
+          },
+          {
+            "kind": "file",
+            "name": "README.md",
+            "path": "web/README.md",
+            "size": 2909,
+            "ext": ".md"
+          },
+          {
+            "kind": "file",
+            "name": "tailwind.config.js",
+            "path": "web/tailwind.config.js",
+            "size": 1126,
+            "ext": ".js"
+          },
+          {
+            "kind": "file",
+            "name": "tsconfig.app.json",
+            "path": "web/tsconfig.app.json",
+            "size": 1015,
+            "ext": ".json"
+          },
+          {
+            "kind": "file",
+            "name": "tsconfig.json",
+            "path": "web/tsconfig.json",
+            "size": 119,
+            "ext": ".json"
+          },
+          {
+            "kind": "file",
+            "name": "tsconfig.node.json",
+            "path": "web/tsconfig.node.json",
+            "size": 593,
+            "ext": ".json"
+          },
+          {
+            "kind": "file",
+            "name": "vercel.json",
+            "path": "web/vercel.json",
+            "size": 70,
+            "ext": ".json"
+          },
+          {
+            "kind": "file",
+            "name": "vite.config.ts",
+            "path": "web/vite.config.ts",
+            "size": 199,
+            "ext": ".ts"
+          }
+        ]
+      },
+      {
+        "kind": "file",
+        "name": "README.md",
+        "path": "README.md",
+        "size": 6413,
+        "ext": ".md"
+      }
+    ]
+  }
+}

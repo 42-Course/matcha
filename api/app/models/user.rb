@@ -17,6 +17,13 @@ class User
     end
   end
 
+  def self.count
+    Database.with_conn do |conn|
+      res = conn.exec('SELECT COUNT(*) FROM users')
+      res.first['count'].to_i
+    end
+  end
+
   def self.create(params)
     params = RequestHelper.normalize_params(params)
     params['password_digest'] = Password.create(params.delete('password'))

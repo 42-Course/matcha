@@ -1,0 +1,197 @@
+# frozen_string_literal: true
+
+require_relative './base_controller'
+require_relative '../models/site_visit'
+require_relative '../models/message'
+require_relative '../models/date'
+require_relative '../models/like'
+
+class AdminController < BaseController
+  before do
+    next if request.request_method == 'OPTIONS'
+    next if request.path_info == '/admin/stats'
+    next if request.path_info.start_with?('/admin/stats/')
+    require_admin!
+  end
+
+  api_doc '/admin/users', method: :get do
+    tags 'Admin'
+    description 'Get all users (admin only)'
+    response 200, 'List of all users', example: {
+      data: [
+        {
+          id: 1,
+          username: 'johndoe',
+          email: 'john@example.com',
+          first_name: 'John',
+          last_name: 'Doe',
+          is_banned: false,
+          is_email_verified: true
+        }
+      ]
+    }
+    response 403, 'Admin access required'
+  end
+
+  get '/admin/users' do
+    users = User.all(serialize_public_user: false)
+    users_data = users.map do |user|
+      user.reject { |k, _| k == 'password_digest' }
+    end
+    { data: users_data }.to_json
+  end
+
+  api_doc '/admin/users/:id', method: :delete do
+    tags 'Admin'
+    description 'Delete a user by ID (admin only)'
+    param :id, Integer, required: true, desc: 'User ID to delete'
+    response 204, 'User deleted successfully'
+    response 403, 'Admin access required'
+    response 404, 'User not found'
+  end
+
+  delete '/admin/users/:id' do
+    user_id = params[:id].to_i
+    halt 404, { error: 'User not found' }.to_json unless User.find_by_id(user_id)
+    halt 400, { error: 'Cannot delete yourself' }.to_json if user_id == @current_user['id']
+
+    User.delete(user_id)
+    status 204
+  end
+
+  api_doc '/admin/visits', method: :get do
+    tags 'Admin'
+    description 'Get recent site visits (admin only)'
+    param :limit, Integer, required: false, desc: 'Limit number of results (default: 100)'
+    response 200, 'List of recent visits', example: {
+      data: [
+        {
+          id: 1,
+          user_id: 42,
+          username: 'johndoe',
+          visited_at: '2025-04-15T10:30:00Z',
+          ip_address: '192.168.1.1',
+          user_agent: 'Mozilla/5.0...'
+        }
+      ]
+    }
+    response 403, 'Admin access required'
+  end
+
+  get '/admin/visits' do
+    limit = params[:limit]&.to_i || 100
+    visits = SiteVisit.recent(limit)
+    { data: visits }.to_json
+  end
+
+  api_doc '/admin/visits/stats', method: :get do
+    tags 'Admin'
+    description 'Get visit statistics by user (admin only)'
+    response 200, 'Visit counts by user', example: {
+      data: [
+        {
+          id: 1,
+          username: 'johndoe',
+          visit_count: 125
+        }
+      ]
+    }
+    response 403, 'Admin access required'
+  end
+
+  get '/admin/visits/stats' do
+    stats = SiteVisit.count_by_user
+    { data: stats }.to_json
+  end
+
+  api_doc '/admin/stats', method: :get do
+    tags 'Admin'
+    description 'Get overall website statistics (public)'
+    response 200, 'Website statistics', example: {
+      data: {
+        total_users: 150,
+        total_messages: 5234,
+        total_dates: 42,
+        total_matches: 89,
+        recent_logins: [
+          {
+            username: 'johndoe',
+            visited_at: '2025-04-15T10:30:00Z',
+            city: 'Paris',
+            country: 'France'
+          }
+        ]
+      }
+    }
+  end
+
+  get '/admin/stats' do
+    total_users = User.count
+    total_messages = Message.count
+    total_dates = Date.count
+    total_matches = Like.count_matches
+    recent_logins = SiteVisit.recent_with_location(5)
+
+    {
+      data: {
+        total_users: total_users,
+        total_messages: total_messages,
+        total_dates: total_dates,
+        total_matches: total_matches,
+        recent_logins: recent_logins
+      }
+    }.to_json
+  end
+
+  api_doc '/admin/stats/visits-over-time', method: :get do
+    tags 'Admin'
+    description 'Get site visits grouped by day (public)'
+    param :days, Integer, required: false, desc: 'Number of days to fetch (default: 30)'
+    response 200, 'Visit counts over time'
+  end
+
+  get '/admin/stats/visits-over-time' do
+    days = params[:days]&.to_i || 30
+    visits_data = SiteVisit.visits_over_time(days)
+    { data: visits_data }.to_json
+  end
+
+  api_doc '/admin/stats/messages-over-time', method: :get do
+    tags 'Admin'
+    description 'Get messages sent grouped by day (public)'
+    param :days, Integer, required: false, desc: 'Number of days to fetch (default: 30)'
+    response 200, 'Message counts over time'
+  end
+
+  get '/admin/stats/messages-over-time' do
+    days = params[:days]&.to_i || 30
+    messages_data = Message.messages_over_time(days)
+    { data: messages_data }.to_json
+  end
+
+  api_doc '/admin/stats/profile-views-over-time', method: :get do
+    tags 'Admin'
+    description 'Get profile views grouped by day (public)'
+    param :days, Integer, required: false, desc: 'Number of days to fetch (default: 30)'
+    response 200, 'Profile view counts over time'
+  end
+
+  get '/admin/stats/profile-views-over-time' do
+    days = params[:days]&.to_i || 30
+    views_data = ProfileView.views_over_time(days)
+    { data: views_data }.to_json
+  end
+
+  api_doc '/admin/stats/dates-over-time', method: :get do
+    tags 'Admin'
+    description 'Get scheduled dates grouped by day (public)'
+    param :days, Integer, required: false, desc: 'Number of days to fetch (default: 30)'
+    response 200, 'Date counts over time'
+  end
+
+  get '/admin/stats/dates-over-time' do
+    days = params[:days]&.to_i || 30
+    dates_data = Date.dates_over_time(days)
+    { data: dates_data }.to_json
+  end
+end

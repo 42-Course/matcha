@@ -38,4 +38,18 @@ class ProfileView
       res.map { |user| UserSerializer.public_view(user) }
     end
   end
+
+  def self.views_over_time(days = 30)
+    Database.with_conn do |conn|
+      sql = <<~SQL
+        SELECT DATE(visited_at) as date, COUNT(*) as count
+        FROM profile_views
+        WHERE visited_at >= NOW() - INTERVAL '#{days} days'
+        GROUP BY DATE(visited_at)
+        ORDER BY date ASC
+      SQL
+      res = conn.exec(sql)
+      res.to_a
+    end
+  end
 end

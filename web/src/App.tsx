@@ -7,6 +7,7 @@ import { RegisterPage } from '@pages/RegisterPage';
 import { MatchingPage } from '@pages/MatchingPage';
 import { ProfilePage } from '@pages/ProfilePage';
 import { Dashboard } from '@pages/DashboardPage';
+import { AdminDashboardPage } from '@pages/AdminDashboardPage';
 import { NotFoundPage } from '@pages/NotFoundPage';
 import { ProtectedRoute } from '@components/ProtectedRoute';
 import { ThemeToggle } from '@components/ThemeToggle';
@@ -80,6 +81,7 @@ function App() {
                         <Route path="/reset-password" element={<NewPasswordPage />} />
                         <Route path="/confirm" element={<ConfirmAccountPage />} />
                         <Route path="/" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
+                        <Route path="/admin" element={<ProtectedRoute><AdminDashboardPage /></ProtectedRoute>} />
                         <Route path="/setup" element={<ProtectedRoute><SetupProfilePage /></ProtectedRoute>} />
                         <Route path="/profile/edit" element={<ProtectedRoute><EditProfilePage /></ProtectedRoute>} />
                         <Route path="/discover" element={<ProtectedRoute><MatchingPage/></ProtectedRoute>}/>
