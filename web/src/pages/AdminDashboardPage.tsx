@@ -1,10 +1,19 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '@api/axios';
 import { useUserMe } from '@/hooks/useUserMe';
-import { User } from '@/types/user';
 import { Users, Activity, List, LayoutGrid } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { TimeSeriesChart } from '@/components/TimeSeriesChart';
+
+interface AdminUser {
+  id: number;
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  is_banned: 't' | 'f';
+  is_email_verified: 't' | 'f';
+}
 
 interface Visit {
   id: number;
@@ -45,7 +54,7 @@ type ViewMode = 'list' | 'card';
 
 export function AdminDashboardPage() {
   const { user } = useUserMe();
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<AdminUser[]>([]);
   const [visits, setVisits] = useState<Visit[]>([]);
   const [visitStats, setVisitStats] = useState<VisitStats[]>([]);
   const [websiteStats, setWebsiteStats] = useState<WebsiteStats | null>(null);
@@ -101,7 +110,7 @@ export function AdminDashboardPage() {
 
         if (isAdmin) {
           const [usersRes, visitsRes, userVisitStatsRes] = await Promise.all([
-            axiosInstance.get('/admin/users') as unknown as User[],
+            axiosInstance.get('/admin/users') as unknown as AdminUser[],
             axiosInstance.get('/admin/visits') as unknown as Visit[],
             axiosInstance.get('/admin/visits/stats') as unknown as VisitStats[],
           ]);
