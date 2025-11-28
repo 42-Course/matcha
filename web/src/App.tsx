@@ -29,6 +29,7 @@ import { ConfirmAccountPage } from './pages/ConfirmAccountPage';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { IntraCallbackPage } from './pages/IntraCallbackPage';
 import { GlobalCallHandler } from './components/GlobalCallHandler';
+import { Logo } from './components/Logo';
 
 function App() {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
@@ -73,9 +74,13 @@ function App() {
                   <BrowserRouter>
                     <NotificationProvider>
                       <BackgroundWrapper>
+                        <Logo size={42} />
                         <NotificationDropdown />
                         <ActionsMenu />
                         <GlobalCallHandler />
+                        <div className='-z-10 text-gray-600 font-semibold fixed bottom-2 left-1/2 transform -translate-x-1/2'>
+                          made @ 42 with ♥️ by pulgamecanica
+                        </div>
                         <Routes>
                           <Route path="/login" element={<LoginPage />} />
                           <Route path="/intra/callback" element={<IntraCallbackPage />} />

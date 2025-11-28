@@ -11,3 +11,24 @@ body,
 body {
   @apply font-sans bg-white text-black dark:bg-gray-900 dark:text-white;
 }
+
+@keyframes logoGlitchShake {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, -1px); }
+  40% { transform: translate(2px, 1px); }
+  60% { transform: translate(-1px, 2px); }
+  80% { transform: translate(1px, -1px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes logoGlitchOpacity {
+  0% { opacity: 1; }
+  50% { opacity: .2; }
+  100% { opacity: 1; }
+}
+
+.logo-glitch {
+  animation:
+    logoGlitchShake 120ms ease-out,
+    logoGlitchOpacity 120ms ease-out;
+}

@@ -34,7 +34,7 @@ export function NotificationDropdown() {
   if (['/login', '/register', '/setup'].includes(location.pathname)) return;
 
   return (
-    <div className="absolute right-0 p-4" ref={ref}>
+    <div className="absolute right-0 p-4 z-10" ref={ref}>
       <button
         onClick={() => setOpen(prev => !prev)}
         className="relative p-3 rounded-full text-white hover:dark:bg-gray-700 dark:bg-gray-800 bg-gray-200 hover:bg-gray-300"

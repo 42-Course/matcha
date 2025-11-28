@@ -330,8 +330,6 @@ export function Dashboard() {
     },
   ];
 
-  const isAdmin = user?.username === 'pulgamecanica';
-
   if (loading) {
     return null;
   }
@@ -659,17 +657,16 @@ export function Dashboard() {
                     </div>
                     <span className="text-sm font-medium text-gray-900 dark:text-white">Edit Profile</span>
                   </Link>
-                  {isAdmin && (
-                    <Link
-                      to="/admin"
-                      className="flex items-center gap-3 w-full py-3 px-4 bg-white/40 dark:bg-gray-700/40 hover:bg-white/60 dark:hover:bg-gray-700/60 rounded-lg transition border border-gray-200 dark:border-gray-600"
-                    >
-                      <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
-                        <Shield size={16} className="text-indigo-600 dark:text-indigo-400" />
-                      </div>
-                      <span className="text-sm font-medium text-gray-900 dark:text-white">Admin Dashboard</span>
-                    </Link>
-                  )}
+                  
+                  <Link
+                    to="/admin"
+                    className="flex items-center gap-3 w-full py-3 px-4 bg-white/40 dark:bg-gray-700/40 hover:bg-white/60 dark:hover:bg-gray-700/60 rounded-lg transition border border-gray-200 dark:border-gray-600"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
+                      <Shield size={16} className="text-indigo-600 dark:text-indigo-400" />
+                    </div>
+                    <span className="text-sm font-medium text-gray-900 dark:text-white">Admin Dashboard</span>
+                  </Link>
                 </div>
               )}
             </div>
