@@ -5,6 +5,8 @@ require_relative '../models/site_visit'
 require_relative '../models/message'
 require_relative '../models/date'
 require_relative '../models/like'
+require_relative '../models/announcement'
+require_relative '../models/notification'
 
 class AdminController < BaseController
   before do
@@ -216,5 +218,136 @@ class AdminController < BaseController
   get '/admin/stats/user-locations' do
     users = User.all_with_locations
     { data: users }.to_json
+  end
+
+  # Announcements endpoints
+  api_doc '/admin/announcements', method: :get do
+    tags 'Admin'
+    description 'Get all announcements (admin only)'
+    response 200, 'List of announcements'
+  end
+
+  get '/admin/announcements' do
+    announcements = Announcement.all
+    { data: announcements }.to_json
+  end
+
+  api_doc '/admin/announcements', method: :post do
+    tags 'Admin'
+    description 'Create a new announcement (admin only)'
+    param :title, String, required: true, desc: 'Announcement title'
+    param :content, String, required: true, desc: 'Announcement content (supports Markdown)'
+    param :expires_at, String, required: false, desc: 'Expiration date (ISO 8601 format)'
+    response 201, 'Announcement created'
+  end
+
+  post '/admin/announcements' do
+    data = json_body
+
+    announcement = Announcement.create(
+      data['title'],
+      data['content'],
+      @current_user['id'],
+      data['expires_at']
+    )
+
+    # Create notifications for all users
+    all_users = User.all(serialize_public_user: false)
+    all_users.each do |user|
+      next if user['id'] == @current_user['id']
+
+      Notification.create(
+        user['id'],
+        "New announcement: #{announcement['title']}",
+        @current_user['id'],
+        'announcement',
+        announcement['id'].to_s
+      )
+    end
+
+    status 201
+    { data: announcement }.to_json
+  end
+
+  api_doc '/admin/announcements/:id', method: :delete do
+    tags 'Admin'
+    description 'Delete an announcement (admin only)'
+    param :id, Integer, required: true, desc: 'Announcement ID'
+    response 204, 'Announcement deleted'
+  end
+
+  delete '/admin/announcements/:id' do
+    Announcement.delete(params[:id])
+    status 204
+  end
+
+  api_doc '/admin/announcements/:id/deactivate', method: :patch do
+    tags 'Admin'
+    description 'Deactivate an announcement (admin only)'
+    param :id, Integer, required: true, desc: 'Announcement ID'
+    response 200, 'Announcement deactivated'
+  end
+
+  patch '/admin/announcements/:id/deactivate' do
+    Announcement.deactivate(params[:id])
+    { message: 'Announcement deactivated' }.to_json
+  end
+
+  api_doc '/admin/users/:username/details', method: :get do
+    tags 'Admin'
+    description 'Get detailed information about a specific user (admin only)'
+    param :username, String, required: true, desc: 'Username to fetch details for'
+    response 200, 'User details', example: {
+      data: {
+        user: {},
+        blocked_users: [],
+        liked_users: [],
+        liked_by_users: [],
+        viewed_profiles: [],
+        profile_viewers: [],
+        matches: [],
+        total_messages: 0,
+        total_dates: 0
+      }
+    }
+    response 404, 'User not found'
+  end
+
+  get '/admin/users/:username/details' do
+    username = params[:username]
+    user = User.find_by_username(username)
+
+    halt 404, { error: 'User not found' }.to_json unless user
+
+    blocked = BlockedUser.blocked_by(user['id'])
+    liked = Like.liked_user_ids(user['id'])
+    liked_by = Like.liked_by_user_ids(user['id'])
+    viewed = ProfileView.visited(user['id'])
+    viewers = ProfileView.views(user['id'])
+    matches = Like.matches(user['id'])
+
+    total_messages = Database.with_conn do |conn|
+      res = conn.exec_params('SELECT COUNT(*) FROM messages WHERE sender_id = $1', [user['id']])
+      res.first['count'].to_i
+    end
+
+    total_dates = Database.with_conn do |conn|
+      res = conn.exec_params('SELECT COUNT(*) FROM dates WHERE initiator_id = $1', [user['id']])
+      res.first['count'].to_i
+    end
+
+    {
+      data: {
+        user: user.reject { |k, _| k == 'password_digest' },
+        blocked_users: blocked,
+        liked_users: User.find_many_by_ids(liked),
+        liked_by_users: User.find_many_by_ids(liked_by),
+        viewed_profiles: viewed,
+        profile_viewers: viewers,
+        matches: matches,
+        total_messages: total_messages,
+        total_dates: total_dates
+      }
+    }.to_json
   end
 end

@@ -8,13 +8,24 @@ class Notification
     Database.pool
   end
 
-  def self.create(user_id, message, from_user_id = nil, type = 'other')
+  def self.create(user_id, message, from_user_id = nil, type = 'other', target_id = nil)
     notification = db.with do |conn|
-      conn.exec_params(<<~SQL, [user_id, from_user_id, type, message])
-        INSERT INTO notifications (to_user_id, from_user_id, type, message)
-        VALUES ($1, $2, $3, $4)
-        RETURNING *
-      SQL
+      # Check if target_id column exists
+      has_target_id = conn.exec("SELECT column_name FROM information_schema.columns WHERE table_name='notifications' AND column_name='target_id'").ntuples > 0
+
+      if has_target_id && target_id
+        conn.exec_params(<<~SQL, [user_id, from_user_id, type, message, target_id])
+          INSERT INTO notifications (to_user_id, from_user_id, type, message, target_id)
+          VALUES ($1, $2, $3, $4, $5)
+          RETURNING *
+        SQL
+      else
+        conn.exec_params(<<~SQL, [user_id, from_user_id, type, message])
+          INSERT INTO notifications (to_user_id, from_user_id, type, message)
+          VALUES ($1, $2, $3, $4)
+          RETURNING *
+        SQL
+      end
     end&.first
     WebSocketPush.send_notification(user_id, notification)
     notification

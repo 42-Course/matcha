@@ -3,16 +3,18 @@ import { Bell, MailOpen, MailPlus } from 'lucide-react';
 import { useNotifications } from '@/hooks/useNotifications';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
+import { AnnouncementModal } from './AnnouncementModal';
 
 export function NotificationDropdown() {
   const [open, setOpen] = useState(false);
+  const [announcementId, setAnnouncementId] = useState<number | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const {
     notifications,
     markAllAsRead,
     hasUnread,
   } = useNotifications();
-  
+
   const navigate = useNavigate();
   // Close dropdown on outside click
   useEffect(() => {
@@ -55,6 +57,12 @@ export function NotificationDropdown() {
                 key={n.id}
                 onClick={() => {
                   switch (n.type) {
+                    case 'announcement':
+                      if (n.target_id) {
+                        setAnnouncementId(parseInt(n.target_id));
+                      }
+                      setOpen(false);
+                      break;
                     case 'like':
                     case 'unlike':
                     case 'match':
@@ -92,6 +100,13 @@ export function NotificationDropdown() {
             ))}
           </ul>
         </div>
+      )}
+
+      {announcementId && (
+        <AnnouncementModal
+          announcementId={announcementId}
+          onClose={() => setAnnouncementId(null)}
+        />
       )}
     </div>
   );

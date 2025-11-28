@@ -11,6 +11,8 @@ module UserValidator
   ].freeze
 
   def self.validate!(params)
+    params['username'] = params['username']&.strip if params['username']
+
     Validator.validate!(
       params: params,
       required: %i[
@@ -25,13 +27,21 @@ module UserValidator
   end
 
   def self.validate_update!(params)
+    params['username'] = params['username']&.strip if params['username']
+
     allowed_keys = %w[
       username first_name last_name biography
       gender sexual_preferences birth_year
+      background_type background_url
     ]
 
     unknown_keys = params.keys - allowed_keys
     raise Errors::ValidationError.new('Unknown fields', unknown_keys) unless unknown_keys.empty?
+
+    valid_backgrounds = %w[none earth gradient-purple gradient-ocean gradient-sunset custom]
+    if params['background_type'] && !valid_backgrounds.include?(params['background_type'])
+      raise Errors::ValidationError.new('Invalid background type', ['background_type'])
+    end
 
     Validator.validate!(
       params: params,

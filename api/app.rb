@@ -33,6 +33,7 @@ class MatchaApp < Sinatra::Base
   use NotificationsController
   use ReportsController
   use IceController
+  use AnnouncementsController
   use AdminController
 end
 

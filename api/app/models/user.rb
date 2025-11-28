@@ -37,6 +37,17 @@ class User
     end
   end
 
+  def self.find_many_by_ids(ids)
+    return [] if ids.empty?
+
+    Database.with_conn do |conn|
+      placeholders = ids.each_with_index.map { |_, i| "$#{i + 1}" }.join(',')
+      sql = "SELECT * FROM users WHERE id IN (#{placeholders})"
+      res = conn.exec_params(sql, ids)
+      res.to_a.map { |user| UserSerializer.public_view(user) }
+    end
+  end
+
   def self.create(params)
     params = RequestHelper.normalize_params(params)
     params['password_digest'] = Password.create(params.delete('password'))
@@ -67,6 +78,7 @@ class User
       gender sexual_preferences birth_year
       latitude longitude city country
       profile_picture_id
+      background_type background_url
     ]
 
     SQLHelper.update(:users, user_id, fields, allowed_fields)

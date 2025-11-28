@@ -7,6 +7,7 @@ export type NotificationType =
   | 'connection'
   | 'video_call'
   | 'date'
+  | 'announcement'
   | 'other';
 
 export interface Notification {
@@ -16,6 +17,7 @@ export interface Notification {
   from_username?: string | null;
   message: string;
   type: NotificationType;
+  target_id?: string;
   read: string;
   created_at: string;
 }

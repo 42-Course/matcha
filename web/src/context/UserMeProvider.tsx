@@ -52,29 +52,32 @@ export const UserMeProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const fallbackToBrowserLocation = useCallback(() => {
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        try {
-          const response = await axiosInstance.post<Location>('/me/location', {
-            latitude: pos.coords.latitude,
-            longitude: pos.coords.longitude,
-          });
-          setLocationManually(response.data);
-        } catch (err) {
-          toast.error(`Failed to update user location: ${err}`);
-        }
-      },
-      async (err) => {
-        toast.error(`Location error: ${err.message}`);
-        try {
-          const response = await axiosInstance.post<Location>('/me/location', {});
-          setLocationManually(response.data);
-        } catch (ipErr) {
-          toast.error(`Failed to get location by IP: ${ipErr}`);
-          setLocation(null);
-        }
+    const handleSuccess = async (pos: GeolocationPosition) => {
+      try {
+        const axios = (await import('@api/axios')).default;
+        const response = await axios.post<Location>('/me/location', {
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+        });
+        setLocationManually(response.data);
+      } catch (err) {
+        console.error('Failed to update user location:', err);
       }
-    );
+    };
+
+    const handleError = async (err: GeolocationPositionError) => {
+      console.error('Location error:', err.message);
+      try {
+        const axios = (await import('@api/axios')).default;
+        const response = await axios.post<Location>('/me/location', {});
+        setLocationManually(response.data);
+      } catch (ipErr) {
+        console.error('Failed to get location by IP:', ipErr);
+        setLocation(null);
+      }
+    };
+
+    navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
   }, [setLocationManually]);  
 
 

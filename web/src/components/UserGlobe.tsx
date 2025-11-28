@@ -153,7 +153,7 @@ export function UserGlobe() {
 
   return (
     <div ref={containerRef} className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-4 flex-wrap">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white">User Locations</h3>
 
         <div className="flex gap-2 flex-wrap">
@@ -253,7 +253,7 @@ export function UserGlobe() {
 
       <div className="relative">
         <div
-          className="rounded-lg overflow-hidden bg-black"
+          className="rounded-lg overflow-hidden bg-black flex items-center justify-center"
           style={{ height: getGlobeHeight() }}
         >
           <Globe

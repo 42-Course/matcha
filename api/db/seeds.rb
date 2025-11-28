@@ -18,7 +18,7 @@ require 'time'
 
 VERBOSE = true
 LOG = Hash.new { |h, k| h[k] = [] }
-TOTALUSERS = 100
+TOTALUSERS = 30
 
 CITIES = [
   { name: 'Bangkok', country: 'Thailand', latitude: 13.7563, longitude: 100.5018 },
@@ -320,3 +320,15 @@ if VERBOSE
     lines.each { |line| puts "  #{line}" }
   end
 end
+
+pulga = User.find_by_username('pulgamecanica') || User.create({
+                      username: 'pulgamecanica',
+                      email: 'pulgamecanica@pulgamecanica',
+                      password: 'pulgamecanica',
+                      first_name: 'pulgamecanica',
+                      last_name: 'pulgamecanica',
+                      gender: 'male',
+                      sexual_preferences: 'female',
+                      birth_year: 1970
+                    })
+User.confirm!(pulga['username'])

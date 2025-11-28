@@ -16,6 +16,8 @@ type ProfileFormProps = {
     sexual_preferences: 'male' | 'female' | 'non_binary' | 'everyone';
     biography: string;
     birth_year: number;
+    background_type?: string;
+    background_url?: string;
   }) => void;
   buttonText?: string;
 };
@@ -29,6 +31,8 @@ export const ProfileForm = ({ onSubmit, buttonText = 'Save' }: ProfileFormProps)
   const [sexualPreferences, setSexualPreferences] = useState<SexualPreference | ''>('');
   const [biography, setBiography] = useState('');
   const [birthYear, setBirthYear] = useState<number | ''>('');
+  const [backgroundType, setBackgroundType] = useState('none');
+  const [backgroundUrl, setBackgroundUrl] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -39,6 +43,8 @@ export const ProfileForm = ({ onSubmit, buttonText = 'Save' }: ProfileFormProps)
       setSexualPreferences(user.sexual_preferences);
       setBiography(user.biography || '');
       setBirthYear(user.birth_year || '');
+      setBackgroundType(user.background_type || 'none');
+      setBackgroundUrl(user.background_url || '');
     }
   }, [user])
 
@@ -52,6 +58,8 @@ export const ProfileForm = ({ onSubmit, buttonText = 'Save' }: ProfileFormProps)
       sexual_preferences: sexualPreferences as 'male' | 'female' | 'non_binary' | 'everyone',
       biography,
       birth_year: Number(birthYear),
+      background_type: backgroundType,
+      background_url: backgroundType === 'custom' ? backgroundUrl : undefined,
     });
   };
 
@@ -109,6 +117,37 @@ export const ProfileForm = ({ onSubmit, buttonText = 'Save' }: ProfileFormProps)
           onChange={setBirthYear}
           required
         />
+
+        <div className="mb-4">
+          <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
+            Background Theme
+          </label>
+          <FormSelect
+            label=""
+            name="background_type"
+            value={backgroundType}
+            onChange={(e) => setBackgroundType(e.target.value)}
+            options={[
+              { value: 'none', label: 'None (Default)' },
+              { value: 'earth', label: '3D Earth Globe' },
+              { value: 'gradient-purple', label: 'Purple Gradient' },
+              { value: 'gradient-ocean', label: 'Ocean Gradient' },
+              { value: 'gradient-sunset', label: 'Sunset Gradient' },
+              { value: 'custom', label: 'Custom URL' },
+            ]}
+            required
+          />
+        </div>
+
+        {backgroundType === 'custom' && (
+          <FormInput
+            label="Custom Background URL"
+            name="background_url"
+            value={backgroundUrl}
+            onChange={(e) => setBackgroundUrl(e.target.value)}
+            placeholder="https://example.com/background.jpg"
+          />
+        )}
         <button
           type="submit"
           className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md mt-4"
