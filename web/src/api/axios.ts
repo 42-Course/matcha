@@ -8,7 +8,7 @@ import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'ax
  */
 const axiosInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE || 'http://localhost:9292'}`,
-  timeout: 10000, // optional; sets a 10-second timeout
+  timeout: 30000, // optional; sets a 30-second timeout
 });
 
 /**
