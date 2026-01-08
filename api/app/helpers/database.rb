@@ -6,7 +6,7 @@ require 'connection_pool'
 
 module Database
   def self.pool
-    @pool ||= ConnectionPool.new(size: 5, timeout: 5) do
+    @pool ||= ConnectionPool.new(size: 20, timeout: 30) do
       uri = URI.parse(ENV['DATABASE_URL'])
       PG.connect(
         host: uri.host,
@@ -37,7 +37,7 @@ module Database
   end
 
   def self.with_open_conn(&block)
-    pool ||= ConnectionPool.new(size: 5, timeout: 5) do
+    pool ||= ConnectionPool.new(size: 20, timeout: 30) do
       uri = URI.parse(ENV['DATABASE_URL'])
       PG.connect(
         host: uri.host,

@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useUserMe } from '@/hooks/useUserMe';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '@api/axios';
 import {
   Target, Flame, Clock, Heart, MessageCircle, Eye,
-  Star, TrendingUp, MapPin, CheckCircle, Shield, ChevronDown, ChevronUp, Minimize2, X, User
+  Star, TrendingUp, MapPin, CheckCircle, Shield, ChevronDown, ChevronUp, Minimize2, X, User, Trash2
 } from 'lucide-react';
 import { MatchResult } from '@/types/match';
+import { DeleteAccountModal } from '@/components/DeleteAccountModal';
+import toast from 'react-hot-toast';
 
 interface DashboardStats {
   total_likes_given: number;
@@ -108,6 +110,7 @@ function SuggestionCard({
 
 export function Dashboard() {
   const { user } = useUserMe();
+  const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [sessionStart] = useState(Date.now());
@@ -122,6 +125,7 @@ export function Dashboard() {
   const [currentSuggestionIndex, setCurrentSuggestionIndex] = useState(0);
   const [waitingStartTime] = useState(Date.now());
   const [waitingTime, setWaitingTime] = useState(0);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const loveQuotes = [
     "Love is like Wi-Fi... you can't see it, but you know when you've lost connection 💘",
@@ -798,8 +802,48 @@ export function Dashboard() {
                 </div>
               )}
             </div>
+
+            {/* Danger Zone */}
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 overflow-hidden mt-6">
+              <div className="p-4">
+                <div className="flex items-center gap-3 mb-2">
+                  <Trash2 className="text-gray-600 dark:text-gray-400" size={20} />
+                  <h2 className="text-lg font-bold text-gray-900 dark:text-white">Account Settings</h2>
+                </div>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
+                  Permanently delete your account and all associated data.
+                </p>
+                <button
+                  onClick={() => setShowDeleteModal(true)}
+                  className="w-full px-4 py-2 bg-white/40 dark:bg-gray-700/40 hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 rounded-lg text-sm font-medium transition border border-gray-200 dark:border-gray-600"
+                >
+                  Delete Account
+                </button>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* Delete Account Modal */}
+        <DeleteAccountModal
+          isOpen={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={async () => {
+            try {
+              await axiosInstance.delete('/me');
+              toast.success('Account deleted successfully');
+
+              // Clear localStorage and sessionStorage
+              localStorage.clear();
+              sessionStorage.clear();
+
+              // Navigate to login page
+              navigate('/login', { replace: true });
+            } catch (error: any) {
+              throw error;
+            }
+          }}
+        />
       </div>
     </div>
   );
