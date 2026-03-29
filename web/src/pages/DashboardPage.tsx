@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '@api/axios';
 import {
   Target, Flame, Clock, Heart, MessageCircle, Eye,
-  Star, TrendingUp, MapPin, CheckCircle, Shield, ChevronDown, ChevronUp, Minimize2, X, User, Trash2
+  Star, TrendingUp, MapPin, CheckCircle, Shield, ChevronDown, ChevronUp, Minimize2, X, User, Trash2, RefreshCw
 } from 'lucide-react';
 import { MatchResult } from '@/types/match';
 import { DeleteAccountModal } from '@/components/DeleteAccountModal';
@@ -205,44 +205,38 @@ export function Dashboard() {
     }
   };
 
+  const fetchSuggestions = async () => {
+    try {
+      const [discoverResponse, likedUsers] = await Promise.all([
+        axiosInstance.post('/me/discover', {}) as unknown as any,
+        axiosInstance.get('/me/likes') as unknown as any,
+      ]);
+
+      let matches = [];
+      if (discoverResponse?.data && Array.isArray(discoverResponse.data)) {
+        matches = discoverResponse.data;
+      } else if (Array.isArray(discoverResponse)) {
+        matches = discoverResponse;
+      }
+
+      const likedData = likedUsers?.data || likedUsers || [];
+      const likedUsernames = Array.isArray(likedData)
+        ? likedData.map((user: any) => user.username).filter(Boolean)
+        : [];
+
+      const filteredMatches = matches.filter((match: MatchResult) =>
+        !likedUsernames.includes(match.user.username)
+      );
+
+      setSuggestions(filteredMatches.slice(0, 5));
+      setCurrentSuggestionIndex(0);
+    } catch (err) {
+      setSuggestions([]);
+    }
+  };
+
   useEffect(() => {
     fetchStats();
-
-    // Fetch profile suggestions
-    const fetchSuggestions = async () => {
-      try {
-        // Fetch discover results and already-liked users in parallel
-        const [discoverResponse, likedUsers] = await Promise.all([
-          axiosInstance.post('/me/discover', {}) as unknown as any,
-          axiosInstance.get('/me/likes') as unknown as any,
-        ]);
-
-        // Handle both wrapped and unwrapped responses
-        let matches = [];
-        if (discoverResponse?.data && Array.isArray(discoverResponse.data)) {
-          matches = discoverResponse.data;
-        } else if (Array.isArray(discoverResponse)) {
-          matches = discoverResponse;
-        }
-
-        // Get list of already-liked usernames
-        // likedUsers response is { data: [...] } with user objects containing username
-        const likedData = likedUsers?.data || likedUsers || [];
-        const likedUsernames = Array.isArray(likedData)
-          ? likedData.map((user: any) => user.username).filter(Boolean)
-          : [];
-
-        // Filter out users we've already liked
-        const filteredMatches = matches.filter((match: MatchResult) =>
-          !likedUsernames.includes(match.user.username)
-        );
-
-        setSuggestions(filteredMatches.slice(0, 5));
-      } catch (err) {
-        setSuggestions([]);
-      }
-    };
-
     fetchSuggestions();
   }, []);
 
@@ -700,9 +694,18 @@ export function Dashboard() {
               {showSuggestions && (
                 <div className="p-6 pt-0">
                   {suggestions.length === 0 ? (
-                    <p className="text-center text-gray-500 dark:text-gray-400 py-8">
-                      No suggestions available right now. Check back later!
-                    </p>
+                    <div className="flex flex-col items-center py-8 gap-4">
+                      <p className="text-center text-gray-500 dark:text-gray-400">
+                        No more suggestions right now.
+                      </p>
+                      <button
+                        onClick={() => fetchSuggestions()}
+                        className="flex items-center gap-2 px-4 py-2 bg-pink-500 hover:bg-pink-600 text-white rounded-xl transition font-medium"
+                      >
+                        <RefreshCw size={16} />
+                        Discover More
+                      </button>
+                    </div>
                   ) : (
                     <div>
                       <SuggestionCard

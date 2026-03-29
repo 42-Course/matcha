@@ -282,7 +282,8 @@ class User
         c[:score][:location_score] <= 0
       end
     end
-    candidates.sort_by { |x| -x[:score][:total] }
+    # Weighted shuffle: higher scores get more weight but results are randomized
+    candidates.sort_by { |x| -x[:score][:total] * (0.5 + rand * 0.5) }
   end
 
   def self.discover_candidates(current)

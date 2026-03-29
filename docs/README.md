@@ -23,6 +23,4 @@ This is a static HTML page (`index.html`) for displaying and interacting with th
 
 - 🔗 [Matcha – The Dating API Project](https://github.com/pulgamecanica/matcha)
 - 🔗 [APIDoc module inside matcha](https://github.com/pulgamecanica/matcha/blob/main/app/lib/api_doc.rb)
----
 
-Feel free to expand or customize this `README.md` to fit your needs.

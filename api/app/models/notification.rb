@@ -27,6 +27,13 @@ class Notification
         SQL
       end
     end&.first
+    # Enrich with from_username for websocket payload
+    if notification && notification['from_user_id']
+      from_user = db.with do |conn|
+        conn.exec_params('SELECT username FROM users WHERE id = $1', [notification['from_user_id']]).first
+      end
+      notification['from_username'] = from_user['username'] if from_user
+    end
     WebSocketPush.send_notification(user_id, notification)
     notification
   end

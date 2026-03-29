@@ -49,10 +49,10 @@ export function ChatWindow({ conversation, currentUser, isTyping, onSendLocalMes
 
 
   return (
-    <div className="flex flex-col h-full border-e dark:border-gray-500 relative">
+    <div className="flex flex-col h-full relative">
       <div
         onClick={() => navigate(`/profile/${conversation.user.username}`)}
-        className="cursor-pointer px-4 py-4 border-b dark:border-gray-500 flex items-center justify-center gap-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+        className="cursor-pointer px-4 py-3 border-b border-gray-200 dark:border-gray-700 flex items-center justify-center gap-3 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
       >
         <img
           src={

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axiosInstance from '@api/axios';
 import { useUserMe } from '@/hooks/useUserMe';
 import {
   Users, Activity, List, LayoutGrid, Megaphone, Globe2, TrendingUp,
-  Settings, Grid3x3, Maximize2, GripVertical, Menu, X
+  Settings, Grid3x3, Maximize2, GripVertical, Menu, X, Loader2
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { TimeSeriesChart } from '@/components/TimeSeriesChart';
@@ -141,7 +141,11 @@ export function AdminDashboardPage() {
   const [announcementTitle, setAnnouncementTitle] = useState('');
   const [announcementContent, setAnnouncementContent] = useState('');
   const [announcementExpires, setAnnouncementExpires] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loadingStats, setLoadingStats] = useState(true);
+  const [loadingGraphs, setLoadingGraphs] = useState(true);
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [loadingAnnouncements, setLoadingAnnouncements] = useState(true);
+  const [loadingVisitStats, setLoadingVisitStats] = useState(true);
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [usersPerPage, setUsersPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -202,48 +206,83 @@ export function AdminDashboardPage() {
     localStorage.setItem('admin_sections_order', JSON.stringify(sectionsToSave));
   }, [sections]);
 
+  // Fetch stats (total statistics + recent logins)
   useEffect(() => {
-    const fetchAdminData = async () => {
+    (async () => {
       try {
-        const [
-          statsRes,
-          visitsTimeRes,
-          messagesTimeRes,
-          profileViewsTimeRes,
-          datesTimeRes
-        ] = await Promise.all([
-          axiosInstance.get('/admin/stats') as unknown as WebsiteStats,
+        const statsRes = await axiosInstance.get('/admin/stats') as unknown as WebsiteStats;
+        setWebsiteStats(statsRes || null);
+      } catch (err) {
+        toast.error(`Failed to fetch stats: ${err}`);
+      } finally {
+        setLoadingStats(false);
+      }
+    })();
+  }, []);
+
+  // Fetch graphs data
+  useEffect(() => {
+    (async () => {
+      try {
+        const [visitsTimeRes, messagesTimeRes, profileViewsTimeRes, datesTimeRes] = await Promise.all([
           axiosInstance.get('/admin/stats/visits-over-time?days=30') as unknown as TimeSeriesData[],
           axiosInstance.get('/admin/stats/messages-over-time?days=30') as unknown as TimeSeriesData[],
           axiosInstance.get('/admin/stats/profile-views-over-time?days=30') as unknown as TimeSeriesData[],
           axiosInstance.get('/admin/stats/dates-over-time?days=30') as unknown as TimeSeriesData[],
         ]);
-
-        setWebsiteStats(statsRes || null);
         setVisitsOverTime(visitsTimeRes || []);
         setMessagesOverTime(messagesTimeRes || []);
         setProfileViewsOverTime(profileViewsTimeRes || []);
         setDatesOverTime(datesTimeRes || []);
-
-        if (isAdmin) {
-          const [usersRes, userVisitStatsRes, announcementsRes] = await Promise.all([
-            axiosInstance.get('/admin/users') as unknown as AdminUser[],
-            axiosInstance.get('/admin/visits/stats') as unknown as VisitStats[],
-            axiosInstance.get('/admin/announcements') as unknown as Announcement[],
-          ]);
-
-          setUsers(usersRes || []);
-          setVisitStats(userVisitStatsRes || []);
-          setAnnouncements(announcementsRes || []);
-        }
       } catch (err) {
-        toast.error(`Failed to fetch admin data: ${err}`);
+        toast.error(`Failed to fetch graph data: ${err}`);
       } finally {
-        setLoading(false);
+        setLoadingGraphs(false);
       }
-    };
+    })();
+  }, []);
 
-    fetchAdminData();
+  // Fetch admin-only data independently
+  useEffect(() => {
+    if (!isAdmin) {
+      setLoadingUsers(false);
+      setLoadingAnnouncements(false);
+      setLoadingVisitStats(false);
+      return;
+    }
+
+    (async () => {
+      try {
+        const usersRes = await axiosInstance.get('/admin/users') as unknown as AdminUser[];
+        setUsers(usersRes || []);
+      } catch (err) {
+        toast.error(`Failed to fetch users: ${err}`);
+      } finally {
+        setLoadingUsers(false);
+      }
+    })();
+
+    (async () => {
+      try {
+        const announcementsRes = await axiosInstance.get('/admin/announcements') as unknown as Announcement[];
+        setAnnouncements(announcementsRes || []);
+      } catch (err) {
+        toast.error(`Failed to fetch announcements: ${err}`);
+      } finally {
+        setLoadingAnnouncements(false);
+      }
+    })();
+
+    (async () => {
+      try {
+        const visitStatsRes = await axiosInstance.get('/admin/visits/stats') as unknown as VisitStats[];
+        setVisitStats(visitStatsRes || []);
+      } catch (err) {
+        toast.error(`Failed to fetch visit stats: ${err}`);
+      } finally {
+        setLoadingVisitStats(false);
+      }
+    })();
   }, [isAdmin]);
 
   const handleDeleteUser = async (userId: number, username: string) => {
@@ -417,13 +456,11 @@ export function AdminDashboardPage() {
 
   const visibleSections = sections.filter(section => !section.adminOnly || isAdmin);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-gray-900 dark:text-white text-xl">Loading dashboard...</div>
-      </div>
-    );
-  }
+  const SectionLoader = () => (
+    <div className="flex items-center justify-center py-12">
+      <Loader2 className="animate-spin text-gray-400" size={32} />
+    </div>
+  );
 
   // Settings Mode View
   if (isSettingsMode) {
@@ -537,7 +574,8 @@ export function AdminDashboardPage() {
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{section.title}</h2>
                 </div>
 
-                {section.id === 'total-stats' && (
+                {section.id === 'total-stats' && loadingStats && <SectionLoader />}
+                {section.id === 'total-stats' && !loadingStats && (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow">
                       <div className="flex items-center gap-3">
@@ -584,7 +622,8 @@ export function AdminDashboardPage() {
                   </div>
                 )}
 
-                {section.id === 'graphs' && (
+                {section.id === 'graphs' && loadingGraphs && <SectionLoader />}
+                {section.id === 'graphs' && !loadingGraphs && (
                   <div className="space-y-6">
                     <TimeSeriesChart title="API Activity" data={visitsOverTime} color="#3b82f6" />
                     <TimeSeriesChart title="Messages" data={messagesOverTime} color="#10b981" />
@@ -593,7 +632,8 @@ export function AdminDashboardPage() {
                   </div>
                 )}
 
-                {section.id === 'users' && isAdmin && (
+                {section.id === 'users' && isAdmin && loadingUsers && <SectionLoader />}
+                {section.id === 'users' && isAdmin && !loadingUsers && (
                   <div>
                     <div className="flex justify-between items-center mb-4">
                       <div className="flex gap-4 items-center">
@@ -771,7 +811,8 @@ export function AdminDashboardPage() {
                   </div>
                 )}
 
-                {section.id === 'recent-logins' && isAdmin && (
+                {section.id === 'recent-logins' && isAdmin && loadingStats && <SectionLoader />}
+                {section.id === 'recent-logins' && isAdmin && !loadingStats && (
                   <div>
                     <div className="mb-4 flex items-center gap-2">
                       <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Show:</label>
@@ -834,7 +875,8 @@ export function AdminDashboardPage() {
                   </div>
                 )}
 
-                {section.id === 'announcements' && isAdmin && (
+                {section.id === 'announcements' && isAdmin && loadingAnnouncements && <SectionLoader />}
+                {section.id === 'announcements' && isAdmin && !loadingAnnouncements && (
                   <div>
                     <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-6">
                       <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Create New Announcement</h3>
@@ -940,7 +982,8 @@ export function AdminDashboardPage() {
                   </div>
                 )}
 
-                {section.id === 'visit-stats' && isAdmin && (
+                {section.id === 'visit-stats' && isAdmin && loadingVisitStats && <SectionLoader />}
+                {section.id === 'visit-stats' && isAdmin && !loadingVisitStats && (
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                       <thead className="bg-gray-50 dark:bg-gray-700">

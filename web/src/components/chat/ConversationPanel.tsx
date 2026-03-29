@@ -22,9 +22,9 @@ export function ConversationPanel({
   );
 
   return (
-    <div className="w-72 border-r dark:border-gray-500 bg-gray-100 dark:bg-gray-800 flex flex-col">
-      <div className="border-b dark:border-gray-500">
-        <Link to="/profile" className="flex items-center gap-2 hover:opacity-90 transition hover:bg-gray-300 hover:dark:bg-gray-600 p-4">
+    <>
+      <div className="border-b border-gray-200 dark:border-gray-700">
+        <Link to="/profile" className="flex items-center gap-3 hover:opacity-90 transition hover:bg-gray-100 hover:dark:bg-gray-700 p-4">
           <img
             src={profilePicture?.url || '/default.png'}
             alt="Profile"
@@ -36,22 +36,25 @@ export function ConversationPanel({
         </Link>
       </div>
 
-      <div className="px-2 py-6">
+      <div className="px-3 py-4">
         <div className="relative">
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Search conversations..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-2 py-1.5 text-sm rounded bg-white dark:bg-gray-700 border dark:border-gray-500"
+            className="w-full pl-10 pr-3 py-2 text-sm rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <LucideSearch className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
+          <LucideSearch className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
         </div>
       </div>
 
-      <hr className='dark:border-gray-500' />
-
       <div className="overflow-y-auto flex-1">
+        {filteredConversations.length === 0 && (
+          <div className="px-4 py-8 text-center text-sm text-gray-400">
+            No conversations found
+          </div>
+        )}
         {filteredConversations.map((conv) => (
           <ConversationItem
             key={conv.user.username}
@@ -66,6 +69,6 @@ export function ConversationPanel({
           />
         ))}
       </div>
-    </div>
+    </>
   );
 }
