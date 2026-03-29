@@ -2,13 +2,12 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Home, Compass, MessageCircle, User, Shield, LogOut,
-  Menu, X, Bell, MailOpen, MailPlus,
+  Menu, X, Bell, MailOpen, MailPlus, Moon, Sun,
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useUserMe } from '@/hooks/useUserMe';
 import { useNotifications } from '@/hooks/useNotifications';
 import { useTheme } from '@/hooks/useTheme';
-import { Moon, Sun } from 'lucide-react';
 import clsx from 'clsx';
 import { AnnouncementModal } from './AnnouncementModal';
 
@@ -18,6 +17,8 @@ const NAV_LINKS = [
   { to: '/conversations', label: 'Messages', icon: MessageCircle },
   { to: '/profile', label: 'Profile', icon: User },
 ];
+
+const HIDDEN_PATHS = ['/login', '/register', '/setup', '/recover-password', '/reset-password', '/confirm'];
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -32,8 +33,7 @@ export function Navbar() {
   const { theme, toggleTheme } = useTheme();
 
   const isAdmin = user?.username === 'pulgamecanica';
-  const hiddenPaths = ['/login', '/register', '/setup', '/recover-password', '/reset-password', '/confirm'];
-  if (hiddenPaths.includes(location.pathname) || location.pathname.startsWith('/intra/callback')) return null;
+  const hidden = HIDDEN_PATHS.includes(location.pathname) || location.pathname.startsWith('/intra/callback');
 
   // Close notification dropdown on outside click
   useEffect(() => {
@@ -54,6 +54,8 @@ export function Navbar() {
   useEffect(() => {
     setMobileOpen(false);
   }, [location.pathname]);
+
+  if (hidden) return null;
 
   const isActive = (path: string) => {
     if (path === '/') return location.pathname === '/';
@@ -129,7 +131,7 @@ export function Navbar() {
             </div>
 
             {/* Right: Actions */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               {/* Theme toggle */}
               <button
                 onClick={toggleTheme}
@@ -152,7 +154,7 @@ export function Navbar() {
                 </button>
 
                 {notifOpen && (
-                  <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl z-50 text-sm overflow-hidden">
+                  <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-2rem)] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl z-50 text-sm overflow-hidden">
                     <div className="px-4 py-3 font-semibold border-b border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">
                       Notifications
                     </div>
@@ -166,7 +168,7 @@ export function Navbar() {
                           onClick={() => handleNotifClick(n)}
                           className={clsx(
                             'px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer',
-                            n.read !== 't' && 'bg-blue-50 dark:bg-gray-750'
+                            n.read !== 't' && 'bg-blue-50 dark:bg-blue-900/10'
                           )}
                         >
                           <div className="flex items-center justify-between gap-3">
@@ -191,7 +193,7 @@ export function Navbar() {
               {/* Profile avatar (desktop) */}
               <Link
                 to="/profile"
-                className="hidden md:block"
+                className="hidden md:block ml-1"
               >
                 <img
                   src={profilePicture?.url || '/default.png'}
@@ -222,7 +224,7 @@ export function Navbar() {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+          <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg">
             <div className="px-4 py-3 space-y-1">
               {NAV_LINKS.map(({ to, label, icon: Icon }) => (
                 <Link
