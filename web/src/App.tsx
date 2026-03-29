@@ -11,14 +11,11 @@ import { AdminDashboardPage } from '@pages/AdminDashboardPage';
 import { UserAdminPage } from '@pages/UserAdminPage';
 import { NotFoundPage } from '@pages/NotFoundPage';
 import { ProtectedRoute } from '@components/ProtectedRoute';
-import { ThemeToggle } from '@components/ThemeToggle';
 import { SetupProfilePage } from '@pages/SetupProfilePage';
 import { EditProfilePage } from '@pages/EditProfilePage';
 import { WebSocketProvider } from '@context/WebSocketProvider';
 import { NotificationProvider } from '@context/NotificationProvider';
-import { NotificationDropdown } from '@components/NotificationDropdown';
 import { ConversationsPage } from '@pages/ConversationsPage';
-import { ActionsMenu }  from '@components/ActionsMenu';
 import { PublicProfilePage } from '@pages/PublicProfilePage';
 import { MessagesProvider } from '@context/MessagesProvider';
 import { UserMeProvider } from '@context/UserMeProvider';
@@ -29,7 +26,7 @@ import { ConfirmAccountPage } from './pages/ConfirmAccountPage';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { IntraCallbackPage } from './pages/IntraCallbackPage';
 import { GlobalCallHandler } from './components/GlobalCallHandler';
-import { Logo } from './components/Logo';
+import { Navbar } from './components/Navbar';
 
 function App() {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
@@ -63,9 +60,6 @@ function App() {
     />
     <ThemeProvider>
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        <div className="fixed bottom-4 right-4 z-50">
-          <ThemeToggle/>
-        </div>
         <GoogleOAuthProvider clientId={clientId}>
           <AuthProvider>
             <UserMeProvider>
@@ -74,13 +68,8 @@ function App() {
                   <BrowserRouter>
                     <NotificationProvider>
                       <BackgroundWrapper>
-                        <Logo size={42} />
-                        <NotificationDropdown />
-                        <ActionsMenu />
+                        <Navbar />
                         <GlobalCallHandler />
-                        <div className='-z-10 text-gray-600 font-semibold fixed bottom-2 left-1/2 transform -translate-x-1/2'>
-                          made @ 42 with ♥️ by pulgamecanica
-                        </div>
                         <Routes>
                           <Route path="/login" element={<LoginPage />} />
                           <Route path="/intra/callback" element={<IntraCallbackPage />} />

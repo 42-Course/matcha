@@ -45,14 +45,14 @@ export function ConversationsPage() {
 
   if (!user) {
     return (
-      <div className="flex h-screen w-screen items-center justify-center">
+      <div className="flex h-[calc(100vh-3.5rem)] w-full items-center justify-center">
         "Fetching all messages..."
       </div>
     );
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-100 dark:bg-gray-900">
+    <div className="flex h-[calc(100vh-3.5rem)] overflow-hidden bg-gray-100 dark:bg-gray-900">
       {/* Sidebar - full width on mobile when no chat selected, fixed width on desktop */}
       <div
         className={`
