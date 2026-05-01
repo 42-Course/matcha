@@ -34,12 +34,13 @@ class Message
     end
   end
 
-  def self.messages_over_time(days = 30)
+  def self.messages_over_time(days = nil)
+    where_clause = days ? "WHERE created_at >= NOW() - INTERVAL '#{days.to_i} days'" : ''
     Database.with_conn do |conn|
       sql = <<~SQL
         SELECT DATE(created_at) as date, COUNT(*) as count
         FROM messages
-        WHERE created_at >= NOW() - INTERVAL '#{days} days'
+        #{where_clause}
         GROUP BY DATE(created_at)
         ORDER BY date ASC
       SQL

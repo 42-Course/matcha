@@ -51,27 +51,29 @@ class SiteVisit
   def self.recent_with_location(limit = 5)
     Database.with_conn do |conn|
       sql = <<~SQL
-        SELECT DISTINCT ON (users.id)
-          users.username,
-          site_visits.visited_at,
-          users.city,
-          users.country
-        FROM site_visits
-        JOIN users ON users.id = site_visits.user_id
-        ORDER BY users.id, site_visits.visited_at DESC
-        LIMIT $1
+        SELECT users.username, latest.visited_at, users.city, users.country
+        FROM (
+          SELECT user_id, MAX(visited_at) AS visited_at
+          FROM site_visits
+          GROUP BY user_id
+          ORDER BY MAX(visited_at) DESC
+          LIMIT $1
+        ) latest
+        JOIN users ON users.id = latest.user_id
+        ORDER BY latest.visited_at DESC
       SQL
       res = conn.exec_params(sql, [limit])
       res.to_a
     end
   end
 
-  def self.visits_over_time(days = 30)
+  def self.visits_over_time(days = nil)
+    where_clause = days ? "WHERE visited_at >= NOW() - INTERVAL '#{days.to_i} days'" : ''
     Database.with_conn do |conn|
       sql = <<~SQL
         SELECT DATE(visited_at) as date, COUNT(*) as count
         FROM site_visits
-        WHERE visited_at >= NOW() - INTERVAL '#{days} days'
+        #{where_clause}
         GROUP BY DATE(visited_at)
         ORDER BY date ASC
       SQL

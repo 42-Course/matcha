@@ -225,10 +225,10 @@ export function AdminDashboardPage() {
     (async () => {
       try {
         const [visitsTimeRes, messagesTimeRes, profileViewsTimeRes, datesTimeRes] = await Promise.all([
-          axiosInstance.get('/admin/stats/visits-over-time?days=30') as unknown as TimeSeriesData[],
-          axiosInstance.get('/admin/stats/messages-over-time?days=30') as unknown as TimeSeriesData[],
-          axiosInstance.get('/admin/stats/profile-views-over-time?days=30') as unknown as TimeSeriesData[],
-          axiosInstance.get('/admin/stats/dates-over-time?days=30') as unknown as TimeSeriesData[],
+          axiosInstance.get('/admin/stats/visits-over-time') as unknown as TimeSeriesData[],
+          axiosInstance.get('/admin/stats/messages-over-time') as unknown as TimeSeriesData[],
+          axiosInstance.get('/admin/stats/profile-views-over-time') as unknown as TimeSeriesData[],
+          axiosInstance.get('/admin/stats/dates-over-time') as unknown as TimeSeriesData[],
         ]);
         setVisitsOverTime(visitsTimeRes || []);
         setMessagesOverTime(messagesTimeRes || []);

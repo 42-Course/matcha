@@ -39,12 +39,13 @@ class ProfileView
     end
   end
 
-  def self.views_over_time(days = 30)
+  def self.views_over_time(days = nil)
+    where_clause = days ? "WHERE visited_at >= NOW() - INTERVAL '#{days.to_i} days'" : ''
     Database.with_conn do |conn|
       sql = <<~SQL
         SELECT DATE(visited_at) as date, COUNT(*) as count
         FROM profile_views
-        WHERE visited_at >= NOW() - INTERVAL '#{days} days'
+        #{where_clause}
         GROUP BY DATE(visited_at)
         ORDER BY date ASC
       SQL

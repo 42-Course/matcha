@@ -55,12 +55,13 @@ class Date
     end
   end
 
-  def self.dates_over_time(days = 30)
+  def self.dates_over_time(days = nil)
+    where_clause = days ? "WHERE created_at >= NOW() - INTERVAL '#{days.to_i} days'" : ''
     db.with do |conn|
       sql = <<~SQL
         SELECT DATE(created_at) as date, COUNT(*) as count
         FROM dates
-        WHERE created_at >= NOW() - INTERVAL '#{days} days'
+        #{where_clause}
         GROUP BY DATE(created_at)
         ORDER BY date ASC
       SQL

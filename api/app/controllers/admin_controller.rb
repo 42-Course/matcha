@@ -153,7 +153,7 @@ class AdminController < BaseController
   end
 
   get '/admin/stats/visits-over-time' do
-    days = params[:days]&.to_i || 30
+    days = params[:days]&.to_i
     visits_data = SiteVisit.visits_over_time(days)
     { data: visits_data }.to_json
   end
@@ -166,7 +166,7 @@ class AdminController < BaseController
   end
 
   get '/admin/stats/messages-over-time' do
-    days = params[:days]&.to_i || 30
+    days = params[:days]&.to_i
     messages_data = Message.messages_over_time(days)
     { data: messages_data }.to_json
   end
@@ -179,7 +179,7 @@ class AdminController < BaseController
   end
 
   get '/admin/stats/profile-views-over-time' do
-    days = params[:days]&.to_i || 30
+    days = params[:days]&.to_i
     views_data = ProfileView.views_over_time(days)
     { data: views_data }.to_json
   end
@@ -192,7 +192,7 @@ class AdminController < BaseController
   end
 
   get '/admin/stats/dates-over-time' do
-    days = params[:days]&.to_i || 30
+    days = params[:days]&.to_i
     dates_data = Date.dates_over_time(days)
     { data: dates_data }.to_json
   end

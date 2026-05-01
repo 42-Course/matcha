@@ -30,7 +30,7 @@ module Database
       attempts += 1
       puts "[DB] Reconnecting due to: #{e.message} (attempt #{attempts}/#{max_retries})"
       @pool = nil
-      sleep 0.05 * attempts
+      sleep [0.5 * (2**(attempts - 1)), 5.0].min
       retry if attempts < max_retries
       raise
     end
