@@ -148,15 +148,20 @@ class AuthController < BaseController
     max_attempts = 3
     delay = 1.0
 
+    # Try the primary secret first, falling back to the next secret when the
+    # primary is expired or rejected (useful while rotating Intra credentials).
+    client_secrets = [ENV['INTRA_CLIENT_SECRET'], ENV['INTRA_CLIENT_NEXT_SECRET']].compact.reject(&:empty?)
+
     attempt = 0
     begin
       attempt += 1
+      client_secret = client_secrets[[attempt - 1, client_secrets.size - 1].min]
       LOGGER.warn("[DEBUG] Attempt #{attempt} - Exchanging Intra code...")
 
       token_response = Faraday.post('https://api.intra.42.fr/oauth/token', {
                                       grant_type: 'authorization_code',
                                       client_id: ENV['INTRA_CLIENT_ID'],
-                                      client_secret: ENV['INTRA_CLIENT_SECRET'],
+                                      client_secret: client_secret,
                                       code: code,
                                       redirect_uri: ENV['INTRA_REDIRECT_URI']
                                     })
