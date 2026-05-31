@@ -20,16 +20,23 @@ class SiteVisit
     end
   end
 
-  def self.count_by_user
+  def self.count_by_user(limit = 100)
     Database.with_conn do |conn|
+      # Aggregate site_visits once (uses the user_id index) and join the small
+      # result to users, rather than expanding every visit row before grouping.
       sql = <<~SQL
-        SELECT users.id, users.username, COUNT(site_visits.id) as visit_count
-        FROM users
-        LEFT JOIN site_visits ON site_visits.user_id = users.id
-        GROUP BY users.id, users.username
-        ORDER BY visit_count DESC
+        SELECT users.id, users.username, counts.visit_count
+        FROM (
+          SELECT user_id, COUNT(*) AS visit_count
+          FROM site_visits
+          GROUP BY user_id
+          ORDER BY visit_count DESC
+          LIMIT $1
+        ) counts
+        JOIN users ON users.id = counts.user_id
+        ORDER BY counts.visit_count DESC
       SQL
-      res = conn.exec(sql)
+      res = conn.exec_params(sql, [limit])
       res.to_a
     end
   end
@@ -50,30 +57,36 @@ class SiteVisit
 
   def self.recent_with_location(limit = 5)
     Database.with_conn do |conn|
+      # Pull the most recent visits straight off the visited_at index (cheap,
+      # bounded), then dedupe by user instead of aggregating the whole table.
       sql = <<~SQL
-        SELECT users.username, latest.visited_at, users.city, users.country
+        SELECT username, visited_at, city, country
         FROM (
-          SELECT user_id, MAX(visited_at) AS visited_at
-          FROM site_visits
-          GROUP BY user_id
-          ORDER BY MAX(visited_at) DESC
-          LIMIT $1
+          SELECT DISTINCT ON (recent.user_id)
+                 recent.user_id, recent.visited_at,
+                 users.username, users.city, users.country
+          FROM (
+            SELECT user_id, visited_at
+            FROM site_visits
+            ORDER BY visited_at DESC
+            LIMIT 1000
+          ) recent
+          JOIN users ON users.id = recent.user_id
+          ORDER BY recent.user_id, recent.visited_at DESC
         ) latest
-        JOIN users ON users.id = latest.user_id
-        ORDER BY latest.visited_at DESC
+        ORDER BY visited_at DESC
+        LIMIT $1
       SQL
       res = conn.exec_params(sql, [limit])
       res.to_a
     end
   end
 
-  def self.visits_over_time(days = nil)
-    where_clause = days ? "WHERE visited_at >= NOW() - INTERVAL '#{days.to_i} days'" : ''
+  def self.visits_over_time(_days = nil)
     Database.with_conn do |conn|
       sql = <<~SQL
         SELECT DATE(visited_at) as date, COUNT(*) as count
         FROM site_visits
-        #{where_clause}
         GROUP BY DATE(visited_at)
         ORDER BY date ASC
       SQL
