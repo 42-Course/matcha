@@ -1,4 +1,4 @@
-# 🧪 Matcha API — Love & Ruby 💘
+# 🧪 Matcha API — Make Friends & Ruby 🤝
 
 [![Sinatra](https://img.shields.io/badge/Made%20with-Sinatra-ff69b4?logo=sinatra)](http://sinatrarb.com/)
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791?logo=postgresql)](https://www.postgresql.org/)
@@ -7,8 +7,27 @@
 [![TDD](https://img.shields.io/badge/TDD-Driven-%23cc0066?logo=testing-library)]()
 [![Custom DSL](https://img.shields.io/badge/DSL-api_doc-%23bada55)]()
 
-> The only thing better than a Matcha latte is a **match made in Ruby**.  
-> This is a fully-documented, TDD-driven Sinatra API for the Matcha dating platform. It’s modular, dockerized, and optimized for love at first request 💘
+> The only thing better than a Matcha latte is sharing one with **a new friend**.  
+> This is a fully-documented, TDD-driven Sinatra API for **Matcha, a platform for meeting friends** — not dating. It’s modular, dockerized, and built for good conversations that start slow 🤝
+
+---
+
+## 🤝 What Matcha is (and isn't)
+
+Matcha is for **finding and keeping friends** — people to meet up with, not romance.
+The whole product is tuned to make interactions calm and intentional:
+
+### 📬 Message rules (enforced by the API)
+
+- You can only message someone you're **already connected with** (a mutual friend).
+- Messages are **at most 300 characters**.
+- You may send **one message per friend, per calendar day** — no more. After you
+  send one, you can message that same friend again the next day. This keeps
+  conversations thoughtful instead of spammy.
+
+A second message to the same friend on the same day returns
+`429 Daily message limit reached`. See `MessagesController` and
+`Message.sent_today?` for the implementation.
 
 ---
 

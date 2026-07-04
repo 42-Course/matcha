@@ -12,7 +12,7 @@ class DatesController < BaseController
   # ---------------------------
   api_doc '/me/dates', method: :post do
     tags 'User', 'Date'
-    description 'Schedule a date with a connected user'
+    description 'Schedule a meetup with a friend you are connected with'
     param :username, String, required: true, desc: "The other user's username"
     param :scheduled_at, String, required: true, desc: 'Scheduled time for the date (ISO 8601)'
     param :location, String, required: true, desc: 'Optional location for the date'

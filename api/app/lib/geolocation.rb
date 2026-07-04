@@ -2,13 +2,27 @@
 
 require 'net/http'
 require 'json'
+require 'ipaddr'
 require_relative './errors'
 
 module Geolocation
   API_URL = 'http://ip-api.com/json/'
   EARTH_RADIUS_KM = 6371.0
 
+  # Private/loopback/link-local/reserved ranges can't be geolocated by ip-api.com
+  # (this is the normal case in local Docker, where the client IP is the gateway).
+  # Callers should treat a nil result as "location unknown" and skip recording.
+  def self.private_ip?(ip)
+    addr = IPAddr.new(ip.to_s)
+    addr.loopback? || addr.private? || addr.link_local? ||
+      addr == IPAddr.new('0.0.0.0')
+  rescue IPAddr::Error
+    false
+  end
+
   def self.lookup(ip)
+    return nil if private_ip?(ip)
+
     uri = URI("#{API_URL}#{ip}?fields=status,message,country,city,lat,lon")
     response = Net::HTTP.get_response(uri)
     raise Errors::ValidationError, 'Geolocation service failed' unless response.is_a?(Net::HTTPSuccess)

@@ -12,9 +12,21 @@ class MessagesController < BaseController
   # ---------------------------
   api_doc '/me/messages', method: :post do
     tags 'Message'
-    description 'Send a message to a user (requires existing connection)'
+    description <<~DESC
+      Send a message to a friend you are connected with.
+
+      Message rules (enforced):
+        • You must already be connected with the recipient.
+        • Messages are at most 300 characters.
+        • You may send at most ONE message per friend per calendar day.
+          After sending, you can message that friend again the next day.
+    DESC
     param :username, String, required: true, desc: "Recipient's username"
-    param :content, String, required: true, desc: 'Message content'
+    param :content, String, required: true, desc: 'Message content (1-300 characters)'
+    response 429, 'Daily message limit reached for this friend', example: {
+      error: 'Daily message limit reached',
+      details: ['You can send at most one message per day to janedoe. Try again tomorrow.']
+    }
     response 200, 'Message sent', example: {
       message: 'Message sent',
       data: {
@@ -48,6 +60,13 @@ class MessagesController < BaseController
 
     connection = Connection.find_between(@current_user['id'], recipient['id'])
     halt 404, { error: "No connection found with #{data['username']}" }.to_json unless connection
+
+    if Message.sent_today?(connection['id'], @current_user['id'])
+      halt 429, {
+        error: 'Daily message limit reached',
+        details: ["You can send at most one message per day to #{data['username']}. Try again tomorrow."]
+      }.to_json
+    end
 
     message = Message.create(connection['id'], @current_user['id'], data['content'])
 

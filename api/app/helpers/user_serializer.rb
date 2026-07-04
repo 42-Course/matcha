@@ -11,7 +11,6 @@ module UserSerializer
       'last_name' => user['last_name'],
       'biography' => user['biography'],
       'gender' => user['gender'],
-      'sexual_preferences' => user['sexual_preferences'],
       'birth_year' => user['birth_year'],
       'fame_rating' => user['fame_rating'],
       'latitude' => user['latitude'].to_f.round(6),

@@ -144,7 +144,7 @@ class LikesController < BaseController
   # ---------------------------
   api_doc '/me/matches', method: :get do
     tags 'User', 'Like'
-    description 'Get list of users who liked you back (matches)'
+    description 'Get list of users who added you back (mutual friends)'
     response 200, 'Array of matched user objects', example: {
       data: [
         { username: 'janedoe', first_name: 'Jane', last_name: 'Doe' }

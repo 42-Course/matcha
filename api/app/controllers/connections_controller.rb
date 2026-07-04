@@ -30,7 +30,7 @@ class ConnectionsController < BaseController
   # ---------------------------
   api_doc '/me/connect', method: :post do
     tags 'User', 'Connection'
-    description 'Create a connection with a matched user'
+    description 'Create a connection with a friend who added you back'
     param :username, String, required: true, desc: 'The username of the user to connect with'
     response 200, 'Connection created', example: {
       message: 'Connected with janedoe',

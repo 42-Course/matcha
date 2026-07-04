@@ -169,7 +169,6 @@ export function Dashboard() {
           user.biography,
           user.birth_year,
           user.gender,
-          user.sexual_preferences,
           user.city,
           user.country,
           user.profile_picture_id,

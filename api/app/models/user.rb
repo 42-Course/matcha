@@ -52,11 +52,10 @@ class User
     params = RequestHelper.normalize_params(params)
     params['password_digest'] = Password.create(params.delete('password'))
     params['fame_rating'] = 1.0
-    params['sexual_preferences'] = params['sexual_preferences'] || 'everyone'
 
     allowed_fields = %w[
       username email password_digest first_name
-      last_name gender sexual_preferences birth_year
+      last_name gender birth_year
       fame_rating is_email_verified
     ]
 
@@ -75,7 +74,7 @@ class User
   def self.update(user_id, fields)
     allowed_fields = %w[
       username first_name last_name biography
-      gender sexual_preferences birth_year
+      gender birth_year
       latitude longitude city country
       profile_picture_id
       background_type background_url
@@ -261,7 +260,6 @@ class User
     return [] unless current
 
     candidates = discover_candidates(current)
-    candidates = filter_by_preferences(current, candidates)
     candidates = filter_out_connections(current, candidates)
     candidates = filter_by_fame_and_age(candidates, filters)
     candidates.map! do |u|
@@ -294,10 +292,6 @@ class User
         u['is_banned'] == 't' ||
         blocked_ids.include?(u['id'].to_i)
     end
-  end
-
-  def self.filter_by_preferences(current, candidates)
-    candidates.select { |u| matches_preferences?(current, u) && matches_preferences?(u, current) }
   end
 
   def self.filter_out_connections(current, candidates)
@@ -365,17 +359,6 @@ class User
 
   def self.fame_rating_score(fame)
     [(fame.to_f / 100) * 100, 100].min.round(2)
-  end
-
-  def self.matches_preferences?(user, other)
-    case user['sexual_preferences']
-    when 'everyone'
-      true
-    when 'non_binary'
-      other['gender'] == 'other'
-    else
-      user['sexual_preferences'] == other['gender']
-    end
   end
 
   ############################

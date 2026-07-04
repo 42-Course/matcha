@@ -15,7 +15,7 @@ class MatchaApp < Sinatra::Base
   set :protection, false
 
   get '/' do
-    { message: 'Welcome to MatchaApp' }.to_json
+    { message: 'Welcome to Matcha — meet friends, one message a day.' }.to_json
   end
 
   use AuthController
@@ -30,6 +30,7 @@ class MatchaApp < Sinatra::Base
   use ConnectionsController
   use MessagesController
   use DatesController
+  use EventsController
   use NotificationsController
   use ReportsController
   use IceController

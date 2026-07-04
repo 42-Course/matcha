@@ -9,4 +9,7 @@ RUN bundle install
 
 EXPOSE 9292
 
-CMD ["bundle", "exec", "rackup", "--server", "puma", "--host", "0.0.0.0", "--port", "9292"]
+# Run puma directly rather than via `rackup`: rackup's development middleware
+# injects Rack::Lint, which rejects Faye::WebSocket's async response and breaks
+# WebSocket upgrades. See config.ru for the hand-built middleware stack.
+CMD ["bundle", "exec", "puma", "-b", "tcp://0.0.0.0:9292", "config.ru"]

@@ -14,6 +14,23 @@ class Message
     end
   end
 
+  # True if `sender_id` has already sent a message in this connection today.
+  # Backs the "one message per conversation per calendar day" rule. Uses the
+  # database clock (CURRENT_DATE) so the boundary is consistent regardless of
+  # which app machine handles the request.
+  def self.sent_today?(connection_id, sender_id)
+    Database.with_conn do |conn|
+      res = conn.exec_params(<<~SQL, [connection_id, sender_id])
+        SELECT 1 FROM messages
+        WHERE connection_id = $1
+          AND sender_id = $2
+          AND created_at::date = CURRENT_DATE
+        LIMIT 1
+      SQL
+      !res.first.nil?
+    end
+  end
+
   def self.for_connection(connection_id)
     Database.with_conn do |conn|
       res = conn.exec_params(<<~SQL, [connection_id])

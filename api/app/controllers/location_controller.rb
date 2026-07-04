@@ -74,6 +74,8 @@ class LocationController < BaseController
         { message: 'Location recorded', data: location_history }.to_json
       else
         record = LocationHistory.record(@current_user['id'], ip_address, user_agent)
+        halt 422, { error: 'Geolocation service failed' }.to_json unless record
+
         { message: 'Location recorded', data: record }.to_json
       end
     rescue Errors::ValidationError => e

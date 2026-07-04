@@ -47,9 +47,8 @@ export function ProfileHeader({ user, profilePicture, location }: Props) {
 
         <p className="text-sm text-gray-500">@{user.username}</p>
 
-        {/* ✨ New: Age · Gender · Sexual Preference */}
         <p className="text-xs text-gray-400 mt-1">
-          {age} years old · {user.gender} · Interested in {user.sexual_preferences}
+          {age} years old · {user.gender}
         </p>
 
         {user.biography && (

@@ -1,0 +1,28 @@
+# Active Storage service definitions. Selected by name when Active Storage is
+# configured (see config/active_record.rb / the Picture wiring in the AR
+# migration). Object *bytes* live here; only metadata rows live in Postgres.
+#
+# The S3 service is backend-agnostic and entirely env-driven, so the same
+# config targets:
+#   • dev  -> MinIO container   (S3_ENDPOINT=http://minio:9000)
+#   • prod -> Fly Tigris        (S3_ENDPOINT from `fly storage create`)
+#   • prod -> AWS S3 / Spaces   (S3_ENDPOINT blank/custom)
+
+test:
+  service: Disk
+  root: <%= File.expand_path('../tmp/storage', __dir__) %>
+
+local:
+  service: Disk
+  root: <%= File.expand_path('../tmp/storage', __dir__) %>
+
+# S3-compatible object storage (MinIO in dev, Tigris/S3 in prod).
+amazon:
+  service: S3
+  endpoint: <%= ENV['S3_ENDPOINT'] %>
+  region: <%= ENV.fetch('S3_REGION', 'us-east-1') %>
+  bucket: <%= ENV['S3_BUCKET'] %>
+  access_key_id: <%= ENV['S3_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['S3_SECRET_ACCESS_KEY'] %>
+  # MinIO and most self-hosted S3 need path-style URLs; AWS/Tigris tolerate it.
+  force_path_style: <%= ENV.fetch('S3_FORCE_PATH_STYLE', 'true') %>

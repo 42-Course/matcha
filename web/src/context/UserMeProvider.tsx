@@ -297,7 +297,7 @@ export const UserMeProvider = ({ children }: { children: React.ReactNode }) => {
             setProfilePicture: setProfilePictureById,
             deletePicture,
             addScheduledDate,
-            profileSetupComplete: !!(user?.gender && user?.sexual_preferences),
+            profileSetupComplete: !!(user?.gender && user?.birth_year),
             matches,
             connections,
             scheduledDates,

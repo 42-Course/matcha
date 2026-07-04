@@ -81,6 +81,12 @@ module Database
   end
 
   def self.with_open_conn(&block)
-    open_pool.with(&block)
+    open_pool.with do |conn|
+      # Migration/setup scripts routinely call conn.close inside their block,
+      # which leaves a closed connection in this pool for the next caller to
+      # pick up. Heal it on checkout so a run of migrations can't abort halfway.
+      reconnect!(conn) if dead?(conn)
+      block.call(conn)
+    end
   end
 end

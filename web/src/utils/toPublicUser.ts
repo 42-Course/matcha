@@ -20,7 +20,6 @@ export function toPublicUser(
     last_name: user.last_name,
     biography: user.biography,
     gender: user.gender,
-    sexual_preferences: user.sexual_preferences,
     birth_year: user.birth_year.toString(),
     profile_picture_id: user.profile_picture_id,
     latitude: user.latitude,

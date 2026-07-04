@@ -7,7 +7,9 @@ require_relative '../lib/geolocation'
 class LocationHistory
   def self.record(user_id, ip_address, user_agent, location: nil)
     location ||= Geolocation.lookup(ip_address)
-    raise Errors::ValidationError, 'Geolocation service failed' unless location
+    # Location can't be determined (e.g. a private/loopback IP in local dev).
+    # Return nil and let the caller decide how to respond rather than raising.
+    return nil unless location
 
     location_history = SQLHelper.create(:location_history, {
                                           user_id: user_id,

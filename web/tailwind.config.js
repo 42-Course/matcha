@@ -32,10 +32,25 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
       },
       colors: {
         primary: '#646cff',
         background: '#121212',
+        // Matcha friends palette — warm, organic, grounded in the tea the app is named for.
+        matcha: {
+          50: '#f4f7ee',
+          100: '#e6eed7',
+          200: '#cddcb2',
+          300: '#aac484',
+          400: '#88a95f',
+          500: '#6b8e4e',
+          600: '#547239',
+          700: '#425a31',
+          800: '#37492b',
+          900: '#2f3d26',
+        },
+        clay: '#d98a5b',
       },
     },
   },

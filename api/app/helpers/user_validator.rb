@@ -4,7 +4,6 @@ require_relative './validator'
 
 module UserValidator
   VALID_GENDERS = %w[male female other].freeze
-  VALID_PREFS   = %w[male female non_binary everyone].freeze
   COMMON_PASSWORDS = %w[
     password 123456 12345678 123456789 qwerty abc123 letmein admin welcome
     iloveyou monkey football 123123 dragon sunshine aserty fuckit
@@ -31,7 +30,7 @@ module UserValidator
 
     allowed_keys = %w[
       username first_name last_name biography
-      gender sexual_preferences birth_year
+      gender birth_year
       background_type background_url
     ]
 
@@ -46,8 +45,7 @@ module UserValidator
     Validator.validate!(
       params: params,
       enums: {
-        gender: VALID_GENDERS,
-        sexual_preferences: VALID_PREFS
+        gender: VALID_GENDERS
       },
       range: {
         birth_year: { min: 1900, max: Time.now.year.to_i - 18 }

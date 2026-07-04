@@ -48,6 +48,26 @@ describe 'MessagesController' do
       post '/me/messages', payload, auth_headers(@alice_token)
       expect(last_response.status).to eq(404)
     end
+
+    it 'allows only one message per friend per day (429 on the second)' do
+      first = { username: 'bob', content: 'Hello friend!' }.to_json
+      post '/me/messages', first, auth_headers(@alice_token)
+      expect(last_response.status).to eq(200)
+
+      second = { username: 'bob', content: 'Me again' }.to_json
+      post '/me/messages', second, auth_headers(@alice_token)
+      expect(last_response.status).to eq(429)
+      json = JSON.parse(last_response.body)
+      expect(json['error']).to match(/daily message limit/i)
+    end
+
+    it 'rejects messages longer than 300 characters (422)' do
+      payload = { username: 'bob', content: 'a' * 301 }.to_json
+      post '/me/messages', payload, auth_headers(@alice_token)
+      expect(last_response.status).to eq(422)
+      json = JSON.parse(last_response.body)
+      expect(json['details'].join).to match(/at most 300 characters/i)
+    end
   end
 
   describe 'GET /me/messages/:username' do

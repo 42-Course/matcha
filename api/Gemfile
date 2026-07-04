@@ -2,8 +2,12 @@
 
 source 'https://rubygems.org'
 
+gem 'activerecord', '~> 7.1'
+gem 'activestorage', '~> 7.1'
+gem 'aws-sdk-s3', '~> 1.170', require: false
 gem 'base64', '~> 0.2.0'
 gem 'bcrypt'
+gem 'image_processing', '~> 1.13'
 gem 'connection_pool', '~> 2.5'
 gem 'dotenv'
 gem 'faraday'

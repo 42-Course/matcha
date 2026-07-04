@@ -2,7 +2,6 @@ import { Picture } from "./picture";
 import { Tag } from "./tag";
 
 export type Gender = 'male' | 'female' | 'other';
-export type SexualPreference = 'male' | 'female' | 'non_binary' | 'everyone';
 
 export type User = {
   id: number;
@@ -11,7 +10,6 @@ export type User = {
   first_name: string;
   last_name: string;
   gender: Gender;
-  sexual_preferences: SexualPreference;
   biography: string | null;
   is_email_verified: boolean;
   is_banned: boolean;
@@ -35,7 +33,6 @@ export type PublicUser = {
   last_name: string;
   biography: string | null;
   gender: Gender;
-  sexual_preferences: SexualPreference;
   fame_rating: string;
   birth_year: string;
   profile_picture_id: number | null;
@@ -60,7 +57,6 @@ export type UpdateUserProfilePayload = {
   first_name?: string;
   last_name?: string;
   gender?: 'male' | 'female' | 'other';
-  sexual_preferences?: 'male' | 'female' | 'non_binary' | 'everyone';
   biography?: string;
   birth_year?: number;
   background_type?: string;
