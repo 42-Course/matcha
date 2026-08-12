@@ -71,6 +71,7 @@ class ConnectionsController < BaseController
 
     connection = Connection.create(@current_user['id'], target['id'])
     if connection
+      track_event('connect', target: target['username'])
       { message: "Connected with #{data['username']}", data: connection }.to_json
     else
       { message: 'Already connected' }.to_json
@@ -107,6 +108,7 @@ class ConnectionsController < BaseController
       @current_user['id'], target['id']
     )
     Connection.delete_between(@current_user['id'], target['id'])
+    track_event('disconnect', target: target['username'])
     { message: "Disconnected from #{data['username']}" }.to_json
   end
 end

@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { loginUser, logoutUser, registerUser, confirmUser, RegisterData, loginSocialUser } from '@api/authService';
 import { AuthContext, SocialLoginData } from '@context/AuthContext';
+import { clearIdentity } from '@/utils/openpanel';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
@@ -71,6 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     logoutUser();
     setToken(null);
     setIsAuthenticated(false);
+    clearIdentity();
   };
 
   async function register(data: RegisterData) {

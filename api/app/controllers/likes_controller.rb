@@ -61,6 +61,8 @@ class LikesController < BaseController
         'match'
       )
     end
+    track_event('like', target: target['username'], matched: !match.nil?)
+    track_event('match', target: target['username']) if match
     { message: "You liked #{data['username']}" }.to_json
   end
 

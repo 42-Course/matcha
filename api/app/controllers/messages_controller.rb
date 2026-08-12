@@ -75,6 +75,7 @@ class MessagesController < BaseController
       message['content'],
       @current_user['id']
     )
+    track_event('message_sent', recipient: recipient['username'], length: data['content'].to_s.length)
     { message: 'Message sent', data: message }.to_json
   end
 

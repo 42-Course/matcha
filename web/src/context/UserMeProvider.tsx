@@ -7,6 +7,7 @@ import { Location } from '@/types/location';
 import { useAuth } from '@hooks/useAuth';
 import toast from 'react-hot-toast';
 import { UserMeContext } from '@context/UserMeContext';
+import { identify } from '@/utils/openpanel';
 import { ScheduledDate } from '@/types/scheduledDate';
 
 export const UserMeProvider = ({ children }: { children: React.ReactNode }) => {
@@ -131,6 +132,14 @@ export const UserMeProvider = ({ children }: { children: React.ReactNode }) => {
         ]);
 
         setUser(userRes);
+        // Ties this browser's screen views to the logged-in profile.
+        identify({
+          profileId: String(userRes.id),
+          firstName: userRes.first_name,
+          lastName: userRes.last_name,
+          email: userRes.email,
+          properties: { username: userRes.username },
+        });
         setTags(tagsRes);
         setPictures(picsRes.filter((pic: Picture) => pic.is_profile !== 't') || null);
         setProfilePicture(picsRes.find((pic: Picture) => pic.is_profile === 't') || null);

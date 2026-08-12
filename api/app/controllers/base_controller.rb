@@ -4,6 +4,7 @@ require 'sinatra/base'
 require_relative '../helpers/request_helper'
 require_relative '../helpers/session_token'
 require_relative '../lib/errors'
+require_relative '../lib/openpanel'
 require_relative '../models/site_visit'
 
 class BaseController < Sinatra::Base
@@ -50,6 +51,31 @@ class BaseController < Sinatra::Base
       @current_user = user
 
       SiteVisit.record(user['id'], client_ip, request.user_agent)
+      Openpanel.track_visit(user['id'], client_ip, request.user_agent, path: request.path_info)
+    end
+
+    # Domain events. Same identity/IP/user-agent as the visit above, so every
+    # event lands on the right profile with geo and device attached.
+    # `user:` is only passed on the auth routes, where @current_user isn't set yet.
+    def track_event(name, user: @current_user, **properties)
+      Openpanel.track(
+        name,
+        profile_id: user&.dig('id'),
+        properties: properties,
+        ip: client_ip,
+        user_agent: request.user_agent
+      )
+    end
+
+    # Push the user's profile fields to OpenPanel so events show a name, not an id.
+    def track_identify(user)
+      Openpanel.identify(
+        user['id'],
+        { firstName: user['first_name'], lastName: user['last_name'], email: user['email'],
+          properties: { username: user['username'] } },
+        ip: client_ip,
+        user_agent: request.user_agent
+      )
     end
 
     def require_admin!

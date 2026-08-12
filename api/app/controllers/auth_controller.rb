@@ -44,6 +44,8 @@ class AuthController < BaseController
       user = User.create(data)
       action = EmailAction.create(user['id'], 'email_confirmation')
       Mailer.send_confirmation_email(user['email'], action['code'])
+      track_identify(user)
+      track_event('signup', user: user, method: 'password')
       status 201
       { message: 'User created!' }.to_json
     rescue Errors::ValidationError => e
@@ -81,6 +83,8 @@ class AuthController < BaseController
     end
 
     token = SessionToken.generate(user['id'])
+    track_identify(user)
+    track_event('login', user: user, method: 'password')
     { token: token }.to_json
   end
 
@@ -109,6 +113,7 @@ class AuthController < BaseController
     halt 422, { error: 'Missing provider or UID' }.to_json unless provider && uid
 
     user = User.find_by_social_login(provider, uid)
+    new_user = user.nil?
 
     unless user
       user = User.create({
@@ -130,6 +135,8 @@ class AuthController < BaseController
     end
 
     token = SessionToken.generate(user['id'])
+    track_identify(user)
+    track_event(new_user ? 'signup' : 'login', user: user, method: provider)
     { token: token }.to_json
   end
 

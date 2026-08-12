@@ -43,6 +43,7 @@ class ReportsController < BaseController
       data['reason'],
       data['description']
     )
+    track_event('report', target: target['username'], reason: data['reason'])
 
     check_ban_user(target)
 

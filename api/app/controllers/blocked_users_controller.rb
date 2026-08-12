@@ -35,6 +35,7 @@ class BlockedUsersController < BaseController
 
     Connection.delete_between(@current_user['id'], target['id'])
 
+    track_event('block', target: target['username'])
     { message: 'User blocked', data: { username: target['username'] } }.to_json
   end
 
